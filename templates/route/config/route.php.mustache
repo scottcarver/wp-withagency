@@ -1,0 +1,17 @@
+<?php
+// new route with 2 positional arguments
+// /{{routename}}/param1/param2/
+
+$new_{{routename}}_routes = new CustomRoutes();
+$new_{{routename}}_routes->addRoute(
+    "^{{routename}}/([^/]*)/([^/]*)/?",
+    'api_callback_{{routename}}',
+    get_template_directory() . '/library/route/route_{{routename}}_template.php',
+    array('param1' => 1, 'param2' => 2,)
+);
+
+function api_callback_{{routename}}($param1, $param2){
+    set_query_var('param1', $param1);
+    set_query_var('param2', $param2);
+    // var_dump($param1, $param2);
+}

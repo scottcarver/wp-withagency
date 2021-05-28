@@ -1,0 +1,236 @@
+// Required Node/Gulop Plugins
+const del = require('del');
+const browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const autoprefixer = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
+const minifycss = require('gulp-clean-css');
+const concat = require('gulp-concat');
+const flatten = require('gulp-flatten');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const minifymq = require('gulp-group-css-media-queries');
+
+// My Files
+// const userScripts = require('./javascript_combined.json');
+// const userCopiedScripts = require('./javascript_copied.json');
+
+// Paths for src/dest
+var paths = {
+  primarycss: {
+    src: 'library/style/style.scss',
+    dest: '.'
+  },
+  styles: {
+    src: ['library/style/**/*.scss', '!library/style/style.scss'],
+    //  src: ['library/style/editor.scss', 'library/style/main.scss'],
+    dest: 'dist/global/'
+  },
+  blocks: {
+    src: 'library/block/**/*.scss',
+    dest: 'dist/blocks/'
+  },
+  // Underscore makes invisible
+  blocksjs: {
+    src: ['library/block/**/*.js', '!**/_*/**'],
+    dest: 'dist/blocks/'
+  },
+  // Component CSS
+  components: {
+    src: 'library/component/**/*.scss',
+    dest: 'dist/component/'
+  },
+  // Component JS
+  componentjs: {
+    src: ['library/component/**/*.js', '!**/_*/**'],
+    dest: 'dist/component/'
+  },
+  // Convert javascript_combined.json into dist/main.min.js
+  scripts: {
+    src: ['js/**/*.js', '!js/unused/**'],
+    dest: 'dist/global/',
+    ordered: require('./javascript_combined.json')
+  },
+  // Copy Images from library to dist
+  images: {
+    src: ['library/image/**/*'],
+    dest: ['dist/image/']
+  },
+  // Copy Fonts from library to dist
+  fonts: {
+    src: ['library/font/**/*'],
+    dest: ['dist/font/']
+  }
+};
+
+
+/* Not all tasks need to use streams, a gulpfile is just another node program
+ * and you can use all packages available on npm, but it must return either a
+ * Promise, a Stream or take a callback and call it
+ */
+function clean() {
+  // You can use multiple globbing patterns as you would with `gulp.src`,
+  // for example if you are using del 2.0 or above, return its promise
+  return del(['dist']);
+}
+
+function primaryStyle() {
+  return gulp.src(paths.primarycss.src)
+    .pipe(flatten())
+    // .pipe(sourcemaps.init())
+    .pipe(sass())
+    // .pipe(autoprefixer())
+    // .pipe(minifymq())
+    // .pipe(minifycss())
+    .pipe(rename('style.css'))
+    // .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.primarycss.dest))
+    .pipe(browserSync.stream());
+}
+
+/*
+ * Define our tasks using plain functions
+ */
+function combineGlobalStyles() {
+  return gulp.src(paths.styles.src)
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(minifymq())
+    .pipe(minifycss())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream());
+}
+
+
+function copyBlocksCSS() {
+  return gulp.src(paths.blocks.src)
+    .pipe(flatten())
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(minifymq())
+    .pipe(minifycss())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.blocks.dest))
+    .pipe(browserSync.stream());
+}
+
+function copyBlocksJS() {
+  return gulp.src(paths.blocksjs.src)
+    .pipe(flatten())
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(uglify())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.componentjs.dest))
+    .pipe(browserSync.stream());
+}
+
+
+function copyComponentCSS() {
+  return gulp.src(paths.components.src)
+    .pipe(flatten())
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(minifycss())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.components.dest))
+    .pipe(browserSync.stream());
+}
+
+function copyComponentJS() {
+  return gulp.src(paths.componentjs.src)
+    .pipe(flatten())
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(uglify())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.componentjs.dest))
+    .pipe(browserSync.stream());
+}
+
+
+function copyImages(){
+  return gulp
+    .src(paths.images.src)
+    .pipe(gulp.dest(paths.images.dest));
+}
+
+function copyFonts(){
+  return gulp
+    .src(paths.fonts.src)
+    .pipe(gulp.dest(paths.fonts.dest));
+}
+
+
+function combineScripts() {
+  return gulp.src(paths.scripts.ordered)
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(uglify())
+    .pipe(concat('main.min.js'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(paths.scripts.dest))
+    .pipe(browserSync.stream());
+}
+
+/* Are both Uglify and Concat Needed? */
+
+function watch() {
+  browserSync.init({
+    port: 8888,
+    proxy: 'localhost/xx-mysite', // Proxy running on localhost:8000
+    // proxy: 'localhost'
+  });
+  
+  gulp.watch(paths.primarycss.src, primaryStyle);
+  gulp.watch(paths.scripts.ordered, combineScripts);
+  gulp.watch(paths.styles.src, combineGlobalStyles);
+  gulp.watch(paths.blocks.src, copyBlocksCSS);
+  gulp.watch(paths.blocks.src, copyBlocksJS);
+  gulp.watch(paths.blocks.src, copyComponentCSS);
+  gulp.watch(paths.componentjs.src, copyComponentJS);
+  gulp.watch(paths.images.src, copyImages);
+  gulp.watch(paths.fonts.src, copyFonts);
+}
+
+/*
+function reload(done) {
+  browserSync.reload();
+  done();
+}
+*/
+
+/*
+ * Specify if tasks run in series or parallel using `gulp.series` and `gulp.parallel`
+ */
+
+var build = gulp.series(clean, gulp.parallel(primaryStyle, combineGlobalStyles, combineScripts, copyBlocksCSS, copyBlocksJS, copyComponentJS, copyComponentCSS, copyImages, copyFonts));
+
+/*
+ * CommonJS `exports` notation use used to declare tasks
+ */
+exports.clean = clean;
+// exports.styles = combineGlobalStyles;
+// exports.scripts = combineScripts;
+// exports.blockcss = copyBlocksCSS;
+// exports.blockjs = copyBlocksJS;
+// exports.images = copyImages;
+
+exports.watch = watch;
+exports.build = build;
+
+/*
+ * Define default task that can be called by just running `gulp` from cli
+ */
+exports.default = build;

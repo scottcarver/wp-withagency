@@ -1,0 +1,16 @@
+<?php
+
+// Standardized REST Route /wp-json/{{prefix}}-api/{{slug}}
+add_action( 'rest_api_init', function () {
+  register_rest_route('{{prefix}}-api', '/{{slug}}/', array(
+    'methods' => 'GET',
+    'callback' => 'cleaned_{{prefix}}_{{slug}}_feed',
+    'permission_callback' => false
+  ));
+});
+
+// Data returned at /wp-json/{{prefix}}-api/{{slug}}
+function cleaned_{{prefix}}_{{slug}}_feed( $request ) {
+    $posts_data = array('one','yes');
+    return $posts_data;                   
+} 

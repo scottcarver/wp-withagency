@@ -1,0 +1,77 @@
+<?php
+/**
+ * Registers the `{{taxonomySlug}}` taxonomy,
+ * for use with 'post', 'page'.
+ */
+function add_{{taxonomySlug}}_taxonomy() {
+
+	// These Specific Posttypes are affected
+	$allowedTypes = array( 'post', 'page' );
+
+	register_taxonomy( '{{taxonomySlug}}', $allowedTypes, array(
+		'hierarchical'      => false,
+		'public'            => true,
+		'show_in_nav_menus' => true,
+		'show_ui'           => true,
+		'show_admin_column' => false,
+		'query_var'         => true,
+		'rewrite'           => true,
+		'capabilities'      => array(
+			'manage_terms'  => 'edit_posts',
+			'edit_terms'    => 'edit_posts',
+			'delete_terms'  => 'edit_posts',
+			'assign_terms'  => 'edit_posts',
+		),
+		'labels'            => array(
+			'name'                       => __( '{{taxonomyLabelPlural}}', '{{domain}}' ),
+			'singular_name'              => _x( '{{taxonomyLabelSingle}}', 'taxonomy general name', '{{domain}}' ),
+			'search_items'               => __( 'Search {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'popular_items'              => __( 'Popular {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'all_items'                  => __( 'All {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'parent_item'                => __( 'Parent {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'parent_item_colon'          => __( 'Parent {{taxonomyLabelSingle}}:', '{{domain}}' ),
+			'edit_item'                  => __( 'Edit {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'update_item'                => __( 'Update {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'view_item'                  => __( 'View {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'add_new_item'               => __( 'Add New {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'new_item_name'              => __( 'New {{taxonomyLabelSingle}}', '{{domain}}' ),
+			'separate_items_with_commas' => __( 'Separate {{taxonomyLabelPlural}} with commas', '{{domain}}' ),
+			'add_or_remove_items'        => __( 'Add or remove {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'choose_from_most_used'      => __( 'Choose from the most used {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'not_found'                  => __( 'No {{taxonomyLabelPlural}} found.', '{{domain}}' ),
+			'no_terms'                   => __( 'No {{taxonomyLabelPlural}}', '{{domain}}' ),
+			'menu_name'                  => __( '{{taxonomyLabelPlural}}', '{{domain}}' ),
+			'items_list_navigation'      => __( '{{taxonomyLabelPlural}} list navigation', '{{domain}}' ),
+			'items_list'                 => __( '{{taxonomyLabelPlural}} list', '{{domain}}' ),
+			'most_used'                  => _x( 'Most Used', '{{taxonomySlug}}', '{{domain}}' ),
+			'back_to_items'              => __( '&larr; Back to {{taxonomyLabelPlural}}', '{{domain}}' ),
+		),
+		'show_in_rest'      => true,
+		'rest_base'         => '{{taxonomySlug}}',
+		'rest_controller_class' => 'WP_REST_Terms_Controller',
+	) );
+
+}
+add_action( 'init', 'add_{{taxonomySlug}}_taxonomy' );
+
+/**
+ * Sets the post updated messages for the `{{taxonomySlug}}` taxonomy.
+ *
+ * @param  array $messages Post updated messages.
+ * @return array Messages for the `{{taxonomySlug}}` taxonomy.
+ */
+function add_{{taxonomySlug}}_messages( $messages ) {
+
+	$messages['{{taxonomySlug}}'] = array(
+		0 => '', // Unused. Messages start at index 1.
+		1 => __( '{{taxonomyLabelSingle}} added.', '{{domain}}' ),
+		2 => __( '{{taxonomyLabelSingle}} deleted.', '{{domain}}' ),
+		3 => __( '{{taxonomyLabelSingle}} updated.', '{{domain}}' ),
+		4 => __( '{{taxonomyLabelSingle}} not added.', '{{domain}}' ),
+		5 => __( '{{taxonomyLabelSingle}} not updated.', '{{domain}}' ),
+		6 => __( '{{taxonomyLabelPlural}} deleted.', '{{domain}}' ),
+	);
+
+	return $messages;
+}
+add_filter( 'term_updated_messages', 'add_{{taxonomySlug}}_messages' );

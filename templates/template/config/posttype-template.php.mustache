@@ -1,0 +1,21 @@
+<?php /*
+Template Name: {{title}}
+Template Post Type: post, page
+*/ ?>
+
+<?php get_header(); ?>
+
+<div class="{{prefix}}-content">
+
+    <h1>It's a {{title}} page!</h1>
+	<p>Do Something cool, or different!</p>
+
+	<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+		<article>	
+			<?php the_content(); ?>
+		</article>	
+	<?php endwhile; endif; ?>
+
+</div>
+
+<?php get_footer(); ?>

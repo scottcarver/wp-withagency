@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?> class="{{prefix}}-site<?php if(false){ echo(' {{prefix}}-site--nonav'); }?>">
+
+<head>
+    <?php /* Meta Tags
+    <?php include(locate_template('library/components/{{prefix}}-metadata/{{prefix}}-metadata.php')); ?>
+     */ ?>    
+    <?php /* Header Output Hook */ ?> 
+    <?php wp_head(); ?>
+    
+    <?php /* GTM: has script 
+    <?php include(locate_template('library/scripts/vendor/gtm-withscript.php')); ?>
+    */ ?>
+</head>
+
+<?php /* Opening Body Tag */ ?>
+<body <?php body_class(); ?>>
+
+    <?php /* GTM: noscript
+    <?php include(locate_template('library/scripts/vendor/gtm-noscript.php')); ?>
+     */ ?>
+
+<?php /* Exclude Header on Landing Pages */ ?>
+<?php if(false){ ?>
+
+    <?php /* Primary Nav */ ?>
+    <?php include('library/components/{{prefix}}-primarynav/{{prefix}}-primarynav.php'); ?>
+
+ <?php } ?>
+
+ <h1>{{name}} Theme!</h1>

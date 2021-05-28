@@ -1,0 +1,17 @@
+<?php /* Exclude Footer if needed by adding a Boolean here */ ?>
+<?php if(false){ ?>
+	<?php /* Footer Nav */ ?>
+    <?php include('library/components/{{prefix}}-footernav/{{prefix}}-footernav.php'); ?>
+<?php } ?>
+
+
+<?php /* Scripts */ ?>
+<div class="{{prefix}}-scripts">
+	
+	<?php /* WP Footer Scripts */ ?>
+	<?php wp_footer(); ?>
+
+</div>
+
+</body>
+</html>
