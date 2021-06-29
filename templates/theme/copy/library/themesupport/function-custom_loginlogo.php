@@ -12,7 +12,7 @@ add_filter( 'login_headertext', '__return_empty_string' );
 /* Modify Login Logo to reflect client */
 function custom_login_logo() {
 
-	$logo_path = '/library/img/logo/logo-lottery-color.svg';
+	$logo_path = '/library/img/logo/logo-agency-color.svg';
     
     if( ! file_exists( get_stylesheet_directory() . $logo_path ) )
 		return;

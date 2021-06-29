@@ -516,6 +516,7 @@ if (defined('WP_CLI') && WP_CLI)
          *     $ wp withagency theme --prefix=ax --domain=acme-site --name=Acme --slug=acme --activate
          */
         public function theme($args, $assoc_args){   
+            
             // Inputs from from Prompt
             $prefix = WP_CLI\Utils\get_flag_value($assoc_args, 'prefix');
             $slug = WP_CLI\Utils\get_flag_value($assoc_args, 'slug');
@@ -659,11 +660,11 @@ if (defined('WP_CLI') && WP_CLI)
          * 
          */
         private function is_allowed($prefix, $domain, $name, $slug){
-            $force = false; // maybe remove this
-            $prefixworthy = WithAgencyPluginWPCLI::is_prefixworthy($prefix, $force);
-            $domainworthy = WithAgencyPluginWPCLI::is_domainworthy($domain, $force);
-            $nameworthy = WithAgencyPluginWPCLI::is_nameworthy($name, $force);
-            $slugworthy = WithAgencyPluginWPCLI::is_slugworthy($slug, $force);
+            // $force = false; // maybe remove this
+            $prefixworthy = WithAgencyPluginWPCLI::is_prefixworthy($prefix); // , $force
+            $domainworthy = WithAgencyPluginWPCLI::is_domainworthy($domain); // , $force
+            $nameworthy = WithAgencyPluginWPCLI::is_nameworthy($name); // , $force
+            $slugworthy = WithAgencyPluginWPCLI::is_slugworthy($slug); // , $force
 
             // Not only where they defined
             if($prefix && $domain && $name && $slug){
@@ -716,6 +717,7 @@ if (defined('WP_CLI') && WP_CLI)
             } else {
                 WP_CLI::line(WP_CLI::colorize('%y🦉 There were problems with your %n') . WP_CLI::colorize('%0%k%3 '.$displayLabel.' %n'));
                 WP_CLI\Utils\format_items('table', $errorArray, array('Error', 'Note'));
+                WP_CLI::line();
                 return false;
             }
             
@@ -759,6 +761,7 @@ if (defined('WP_CLI') && WP_CLI)
             } else {
                 WP_CLI::line(WP_CLI::colorize('%y🦉 There were problems with your %n') . WP_CLI::colorize('%0%k%3 '.$displayLabel.' %n'));
                 WP_CLI\Utils\format_items('table', $errorArray, array('Error', 'Note'));
+                WP_CLI::line();
                 return false;
             }
        
@@ -777,6 +780,7 @@ if (defined('WP_CLI') && WP_CLI)
         {
             $lowerCaseTextOrDash = "/[^a-z-]+/";
             $matchAchieved = preg_match($lowerCaseTextOrDash, $mixedText);
+            $atLeastThree = strlen($mixedText) <= 2;
             $errorArray = array();
 
             // Enforce Character Requirement
@@ -784,6 +788,14 @@ if (defined('WP_CLI') && WP_CLI)
                 array_push($errorArray, array(
                     'Error' => 'Bad characters',
                     'Note' => 'The domain (also referred to as text-domain) can only include lowercase letters and single dash character, yet was: ' . $mixedText,
+                ));
+            }
+
+            // Enforce Length Requirement
+            if($atLeastThree){
+                array_push($errorArray, array(
+                    'Error' => 'Too Short',
+                    'Note' => 'The '.$displayLabel.' should be at least 3 characters long. It will be used to set a text-domain yet was: "' . $mixedText . '"',
                 ));
             }
      
@@ -794,6 +806,7 @@ if (defined('WP_CLI') && WP_CLI)
             } else {
                 WP_CLI::line(WP_CLI::colorize('%y🦉 There were problems with your %n') . WP_CLI::colorize('%0%k%3 '.$displayLabel.' %n'));
                 WP_CLI\Utils\format_items('table', $errorArray, array('Error', 'Note'));
+                WP_CLI::line();
                 return false;
             }
         }
@@ -825,9 +838,52 @@ if (defined('WP_CLI') && WP_CLI)
             } else {
                 WP_CLI::line(WP_CLI::colorize('%y🦉 There were problems with your %n') . WP_CLI::colorize('%0%k%3 '.$displayLabel.' %n'));
                 WP_CLI\Utils\format_items('table', $errorArray, array('Error', 'Note'));
+                WP_CLI::line();
                 return false;
             }
          
+        }
+
+        public function dadoop(){
+            $testString = 'yarr';
+            $passed = WithAgencyPluginWPCLI::testfor_specialchars($testString);
+            if(!$passed){
+                return $passed;
+            } else {
+                return 'bop';
+            }
+        }
+
+
+        /** 
+         * Test for Length
+         * 
+         * Examines a string of text against a minumum and maximum length
+         * 
+         * @param $mixedText {string}
+         * @param $min {int}
+         * @param $max {int}
+         * @return boolean length was acceptable
+         */
+
+
+
+        private function testfor_length($mixedText, $min, $max){
+
+        }
+
+        /** 
+         * Test for Special Chars
+         * 
+         * Examines a string of text to determine if it has special characters which are not allowed
+         * 
+         * @param $mixedText {string}
+         * @return boolean whether special chars were detected
+         */
+        private function testfor_specialchars($mixedText){
+            $lowerCaseTextOrDash = "/[^a-z-]+/";
+            $matchAchieved = preg_match($lowerCaseTextOrDash, $mixedText);
+            return $matchAchieved;
         }
         
        
@@ -854,9 +910,11 @@ if (defined('WP_CLI') && WP_CLI)
          * 
          */
         private function nice_error_needinputs($feature){
-            WP_CLI::line('❌ Multiple Arguments are required, '.$feature.' was not generated');
+            WP_CLI::line();
+            WP_CLI::line('❌ Multiple Arguments are required, *'.$feature.'* was not generated');
             WP_CLI::line('💡 Try running `wp withagency '.$feature.' --prompt` or run `wp help withagency '.$feature.'` for detailed instructions');
             WP_CLI::line(self::nice_documentationurl().$feature);
+            WP_CLI::line();
             return false;
         }
 
