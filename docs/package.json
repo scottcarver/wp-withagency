@@ -1,0 +1,16 @@
+{
+  "name": "wp-pollinate-documentation",
+  "version": "0.0.1",
+  "description": "WP Pollinate Docs built in eleventy",
+  "scripts": {
+    "build": "eleventy",
+    "watch": "eleventy --watch",
+    "serve": "eleventy --serve",
+    "start": "eleventy --serve",
+    "debug": "DEBUG=* eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-navigation": "^0.1.6"
+  }
+}

@@ -55,7 +55,6 @@ Blocks are UI elements specifically built to be used in the Gutenberg Interface.
 3) The CSS/JS/PHP assets will be automatically referenced in the theme if you allow it
 
 
-
 ## Understanding WP CLI Constants
 When creating themes it is necessary to reuse certain text-strings, such as the "text domain" for internationalization. For theming purposes, we use client-namespaced BEM  - and this "client namespace" is another repetitive text string. 
 

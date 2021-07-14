@@ -216,12 +216,14 @@ if (defined('WP_CLI') && WP_CLI)
                 $fileadditions = "/* ".$slug." */\r\n"."require_once(get_template_directory().'/library/endpoint/endpoint_".$slug.".php');";
                 WithAgencyPluginWPCLI::nice_tailfile(DEST_ENDPOINT_FILE, $fileadditions);
                 // Report Success
+                WP_CLI::line();
                 WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new endpoint "'.$slug.'"%n'));
                 WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' . DEST_ENDPOINT_FOLDER . 'endpoint_'.$slug.'.php %n'));
                 WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
                 // Show link to Docs
                 WP_CLI::line(WP_CLI::colorize('%g- your endpoint is *lightly configured* and may require modifications should you choose to capture one, or multiple inputs. %n'));
                 WP_CLI::line(self::nice_documentationurl().'endpoint');
+                WP_CLI::line();
             }
         }
 
@@ -355,8 +357,83 @@ if (defined('WP_CLI') && WP_CLI)
 
 
         // Generates a file containing Constants
-        public function retrofit(){
+
+        /**
+         * Generates starter code for a Theme.
+         *
+         * A collection of files will be copied and configured when you create your theme
+         * 
+         * ## OPTIONS
+         *
+         * [--slug=<slug>]
+         * : This string of text will be used to create the directory in which your theme is stored. It can only include lowercase text and dashes A good pattern for client Acme|Betamax is "acme|betabax"
+         * 
+         * [--name=<name>]
+         * : This string of text is will display when managing your theme. A good pattern for client Acme|Betamax is "Acme 20xx|Betamax Agency"
+         * 
+         * [--prefix=<prefix>]
+         * : This short lowercase text string should be between 2 and 5 characters for use in BEM Components.  Two Examples: 1) Acme->"acme"  1) Betamax->"px"
+         *
+         * [--domain=<domain>]
+         * : This string of text will be used for translation/internationalization. It can only include lowercase text and dashes. By convention includes two words and one dash. A good pattern for client Acme|Betamax is "acme-site|betamax-agency"
+         * 
+         * ## EXAMPLES
+         *     Prompt for inputs
+         *     $ wp withagency retrofit --prompt
+         * 
+         *     Create a theme with known inputs
+         *     $ wp withagency retrofit --prefix=ax --domain=acme-site --name=Acme --slug=acme
+         * 
+         *     Create a theme and Activate it
+         *     $ wp withagency retrofit --prefix=ax --domain=acme-site --name=Acme --slug=acme --activate
+         */
+
+        public function retrofit($args, $assoc_args){
+            $prefix = WP_CLI\Utils\get_flag_value($assoc_args, 'prefix');
+            $slug = WP_CLI\Utils\get_flag_value($assoc_args, 'slug');
+            $name = WP_CLI\Utils\get_flag_value($assoc_args, 'name');
+            $domain = WP_CLI\Utils\get_flag_value($assoc_args, 'domain');
+            // $filename = WP_CLI\Utils\get_flag_value($assoc_args, 'filename');
+            $allUserArgs = isset($prefix) && isset($domain) && isset($name) && isset($slug); //  && isset($filename)
+
+            // Needs More Input
+            if(!$allUserArgs){ self::nice_error_needinputs('theme'); }
             
+            // If Is Allowed
+            // WithAgencyPluginWPCLI::is_allowed($prefix, $domain, $name, $slug)
+            if($allUserArgs){  
+                // 2) Generate Configured Files
+                $renderVars = array(
+                    'prefix' => $prefix,
+                    'domain' => $domain,
+                    'name' => $name,
+                    'slug' => $slug,
+                );
+                // 3) Get Template List
+                require_once('templates/theme/retrofitTemplate.php');
+                $retrofitTemplateEntries = retrofitTemplate();
+                $dest = get_template_directory();
+
+                // 4) Process each of them
+                foreach($retrofitTemplateEntries as $entry){
+                    // Dynamically write the in/out points
+                    $renderVars['template'] = $entry['template'];
+                    $renderVars['output'] = $dest . $entry['output'];
+                    // Capture HTML
+                    $html = self::nice_renderhtml($renderVars);
+                     // Save to File
+                    // file_put_contents($renderVars['output'], $html);
+
+                    self::nice_rendertofile($html, $renderVars['output']);
+                 
+                }
+
+                // Text to be added to functions.php
+                $fileadditions = "/* added by cli */\r\n require_once(get_template_directory().'/custom_constants.php');";
+                // Tail the functions File
+                WithAgencyPluginWPCLI::nice_tailfile('/functions.php', $fileadditions);
+
+            }
         }
         
         
@@ -687,15 +764,18 @@ if (defined('WP_CLI') && WP_CLI)
         {   
             
             $onlyLowerCaseText = "/[^a-z]+/";
-            $matchAchieved = preg_match($onlyLowerCaseText, $mixedText);
+            $caseError = preg_match($onlyLowerCaseText, $mixedText) == true;
+            
             // $helplink = self::nice_documentationurl(). '#prefix';
             $lessThanTwo = strlen($mixedText) < 2;
             $moreThanFive = strlen($mixedText) > 5;
             $inRange = $lessThanTwo || $moreThanFive;
+
+            
             $errorArray = array();
             
             // Character Requirement
-            if($matchAchieved){
+            if($caseError){
                 array_push($errorArray, array(
                     'Error' => 'Lowercase Only',
                     'Note' => 'only lowercase letters are allowed in theme prefixes (no numbers, uppercase or special chars), yours was "' . $mixedText . '"',
@@ -844,15 +924,28 @@ if (defined('WP_CLI') && WP_CLI)
          
         }
 
+
         public function dadoop(){
-            $testString = 'yarr';
-            $passed = WithAgencyPluginWPCLI::testfor_specialchars($testString);
-            if(!$passed){
-                return $passed;
-            } else {
-                return 'bop';
-            }
+            /* Test Length 
+            $mixedText = 'yarzr1';
+            $min = 2;
+            $max = 5;
+            $matchAchieved = WithAgencyPluginWPCLI::testfor_lengthrange($mixedText, $min, $max);
+            */ 
+
+            /* Test special chars 
+            $mixedText = 'leter!';
+            $matchAchieved = WithAgencyPluginWPCLI::testfor_specialchars($mixedText);
+            if($matchAchieved){ WP_CLI::line('failure, remove special chars');
+            } else {  WP_CLI::line('it worked');}
+            */
+
+            /* Test for Lowercase */
+            $mixedText = 'aleter';
+            $matchAchieved = WithAgencyPluginWPCLI::testfor_lowercaseonly($mixedText);
+            $matchAchieved ? WP_CLI::line('it worked') : WP_CLI::line('it failed');
         }
+      
 
 
         /** 
@@ -867,9 +960,19 @@ if (defined('WP_CLI') && WP_CLI)
          */
 
 
+        private function testfor_lengthrange($mixedText, $min, $max){
+            $moreThanMin = strlen($mixedText) >= $min;
+            $lessThanMax = strlen($mixedText) <= $max;
+            $inRange = $moreThanMin && $lessThanMax;
 
-        private function testfor_length($mixedText, $min, $max){
-
+             // $matchAchieved = WithAgencyPluginWPCLI::testfor_specialchars($testString);
+             if($inRange){
+                 WP_CLI::line('passed!');
+                return true;
+            } else {
+                WP_CLI::line('failed, out of range, stay within min:' . $min. ' and max:' . $max );
+                return false;
+            }
         }
 
         /** 
@@ -881,8 +984,53 @@ if (defined('WP_CLI') && WP_CLI)
          * @return boolean whether special chars were detected
          */
         private function testfor_specialchars($mixedText){
-            $lowerCaseTextOrDash = "/[^a-z-]+/";
-            $matchAchieved = preg_match($lowerCaseTextOrDash, $mixedText);
+            $letters =  str_split($mixedText, 1);
+            $errorcount = 0;
+            // Examine Each Letter
+            foreach($letters as $letter){
+                $lowerCaseTextOrDash = "/[^a-z-]+/";
+                $validLetter = preg_match($lowerCaseTextOrDash, $letter);
+                if($validLetter){$errorcount++;}
+            }
+            // At Least One Error was detected
+            $matchAchieved = $errorcount > 0;
+            return $matchAchieved;
+        }
+
+
+        /** 
+         * Test for Lowercase Text
+         * 
+         * Examines a string of text to ensure that it only contains lowercase
+         * 
+         * @param $mixedtext {string}
+         * @return boolean whether special chars were detected
+         */
+        private function testfor_lowercaseonly($mixedText){
+            $letters =  str_split($mixedText, 1);
+            $errorcount = 0;
+            // Examine Each Letter
+            foreach($letters as $letter){
+                $onlyLowerCaseText = "/[^a-z]+/";
+                $invalidLetter = preg_match($onlyLowerCaseText, $letter);
+                if($invalidLetter){$errorcount++;}
+            }
+            // At Least One Error was detected
+            $matchAchieved = $errorcount == 0;
+            return $matchAchieved;
+        }
+
+        /** 
+         * Test for Number
+         * 
+         * Examines a string of text to ensure that it only contains lowercase
+         * 
+         * @param $mixedtext {string}
+         * @return boolean whether special chars were detected
+         */
+        private function testfor_number($mixedText){
+            $onlyLowerCaseText = "/[^0-9]+/";
+            $matchAchieved = preg_match($onlyLowerCaseText, $mixedText);
             return $matchAchieved;
         }
         

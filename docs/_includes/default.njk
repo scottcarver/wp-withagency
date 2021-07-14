@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} | My Site</title>
+  <link rel='stylesheet'href='/library/sample.css' type='text/css' media='all' /> 
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <h1>$wp withagency<span>|</span></h1>
+    {# <p>Documentation for building WordPress sites at Pollinate</p>
+    <h2>{{ post.data.title }}</h2> #}
+  </header>
+
+  <nav class="tabs">
+  {% set navPages = collections.post | eleventyNavigation %}
+  <ul>
+  {%- for entry in navPages %}
+    <li{% if entry.url == page.url %} class="active"{% endif %}>
+      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+    </li>
+  {%- endfor %}
+  </ul>
+  </nav>
+
+
+
+
+
+  {{ content | safe }}
+
+  <nav class="subnav">
+  {% set navPages = collections.reference | eleventyNavigation %}
+  <ul>
+    <li>Reference:<li>
+  {%- for entry in navPages %}
+    <li{% if entry.url == page.url %} class="active"{% endif %}>
+      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+    </li>
+  {%- endfor %}
+  </ul>
+  </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+body{
+    background:#ededed;
+}
+nav ul{padding:0;}
+nav ul li{display:inline-block;margin:5px; }
+
+
+nav.tabs  ul li{background:rgba(0,0,0,.3);border-top:solid 2px transparent;border-radius:3px 3px 0 0;}
+nav.tabs  ul li.active, nav.tabs  ul li a:hover, nav.tabs  ul li a:focus{border-color:black; background:rgba(255,255,0,.5);}
+nav.tabs  ul li a{display:inline-block;text-decoration:none;padding:10px;color:black;}
+
+.subnav ul{
+  background:#aaa;
+  margin:0;
+  padding:0;
+  
+}
+.subnav ul li a{
+  text-decoration: none;
+  color:white;
+  padding:5px;
+}
+.subnav ul li.active a, .subnav ul li a:hover
+{
+  background:rgba(255,255,0,.5);
+  color:black;
+  
+}
+
+
+article{
+    max-width:800px;
+    background:rgba(0,0,0,.1);
+    padding:5px 15px;
+    border-radius:0 3px 3px 3px;
+}
+
+.page{
+    max-width:800px;
+    font-family:sans-serif;
+    line-height: 1.5;
+    margin:5vh auto;
+    padding:10px;
+   /* background:rgba(0,0,0,.1); */
+}
+
+a{color:#ed1c24;}
+
+.tabs{/*overflow:auto;-webkit-overflow-scrolling: touch;*/}
+.tabs ul, .tabs li{margin-bottom:0;margin-left:0;/*white-space: nowrap;*/}
+.tabs{
+  position:sticky;
+  top:0;
+  background:#ededed;
+  /* border-bottom:solid 5px rgba(0,0,0,.1); */
+}
+
+header h1{font-family:monospace;}
+header span {
+    color:#222;
+    -webkit-animation: 2s linear infinite marquee_anim; /* for Safari 4.0 - 8.0 */
+    animation: 2s linear infinite marquee_anim;
+}
+  
+/* for Safari 4.0 - 8.0 */
+@-webkit-keyframes marquee_anim {
+  0% {visibility: hidden;}
+  50% {visibility: hidden;}
+  100% {visibility: visible;}
+}
+
+@keyframes marquee_anim {
+  0% {visibility: hidden;}
+  50% {visibility: hidden;}
+  100% {visibility: visible;}
+}
