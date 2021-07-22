@@ -27,9 +27,16 @@
   </ul>
   </nav>
 
-
-
-
+  <nav class="tabs">
+  {% set navPages = collections.command | eleventyNavigation %}
+  <ul>
+  {%- for entry in navPages %}
+    <li{% if entry.url == page.url %} class="active"{% endif %}>
+      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+    </li>
+  {%- endfor %}
+  </ul>
+  </nav>
 
   {{ content | safe }}
 

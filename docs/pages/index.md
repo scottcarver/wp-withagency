@@ -11,10 +11,18 @@ eleventyNavigation:
   order: 1
 ---
 
-"**wp withagency**" is a command line tool for creating themes in WordPress. It's very similar to the 'wp cli scaffold' command but with a few new features to granularly build out features.
+"**wp withagency**" is a command line tool for creating themes in WordPress. It's very similar to the `wp cli scaffold` command but with new features to granularly build things out.
 
 ## Commands
-- Block
+- **block** - generates a gutenberg block
+- **component** - generates a UI component
+- **endpoint** - generates an wp-json endpoint
+- **posttype** - generates a posttype definition
+- **retrofit** - generates constants in an existing theme
+- **route** - generates content at an arbitrary url
+- **taxonomy** - generates a taxonomy definition
+- **template** - generates a post|page|posttype template
+- **theme** - generates a WordPress theme
 
 ###
 <!-- 

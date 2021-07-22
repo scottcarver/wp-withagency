@@ -1,6 +1,6 @@
 
 # 🤖 WP With Agency
-This WordPress plugin enables new functionality in WP CLI through the `wp withagency` subcommands. These commands will generate theme code to in an *agency style*. The repo includes a directory `/docs/` which details both the plugin's usage, and a standardized approach to WordPress development. [View the documentation.](https://xxxxxxxx.netlify.app/)
+This WordPress plugin enables new functionality in WP CLI through the `wp withagency` subcommands. These commands will generate theme code to in an *agency style*. The repo includes a directory `/docs/` which details both the plugin's usage, and a standardized approach to WordPress development. 
 
 ## Background
 The structure of this plugin aims to mimic functionality seen in the core WP-CLI code, while staying minimal. We use "Mustache" for generating a very similar way to the "scaffold" command.
@@ -15,6 +15,7 @@ The structure of this plugin aims to mimic functionality seen in the core WP-CLI
 - **component** - generates a UI component
 - **endpoint** - generates an wp-json endpoint
 - **posttype** - generates a posttype definition
+- **retrofit** - generates constants in an existing theme
 - **route** - generates content at an arbitrary url
 - **taxonomy** - generates a taxonomy definition
 - **template** - generates a post|page|posttype template
@@ -23,22 +24,12 @@ The structure of this plugin aims to mimic functionality seen in the core WP-CLI
 #### Running Subcommands
 Typing `wp withagency SUBCOMMAND --prompt` into the terminal (with a subcommand listed above)
 
-## Steps for creating a New Theme
-Most of the commands surround *the act of creating a theme*, or various aspects of a theme. The above list is alphabetical but a new site will start by calling the "theme" subcommand:
+## Documentation
+For notes on the full usage of this tool please [View the documentation.](https://wp-withagency.netlify.app/)
 
-1) install a new theme using `wp withagency theme --prompt` 2) Enter the various inputs for prefix/domain/name/slug
-3) The theme files will be generated and the inputs defined as Theme Constants in the file `/functions/custom/custom_constants.php`
+## Why does this Exist?
+One of the most common questions in WordPress land is "what theme should I use"? - and of course the answer is "the one you built from scratch." This tool allows you go generate a custom theme based on your needs while maintaining control over the codebase.
 
-**About the Theme Constants**
-
-```
-<?php
-define("THEME_PREFIX", "apls");
-define("THEME_DOMAIN", "apples-computers");
-define("THEME_NAME", "Apples Computers 2020");
-define("THEME_SLUG", "apples");
-?>
-```
 
 ## Steps for creating a New Component
 Componenets are reusable UI elements composde of php/html/css/js. The term is very open ended
@@ -66,14 +57,7 @@ When creating themes it is necessary to reuse certain text-strings, such as the 
 - maintain the generator over time as an alternative to a "starter theme." Though we will be able to generate themes, it will be done through through composition, not subtraction, as has been the case with cleaning up megathemes to suit our needs.
 
 ## 📝 Editing the Docs
-Follow the instructions inside of the /docs/ folder, which is a standalone [Gatsby ↗️](gatsbyjs.org) Project. The basics include:
-
-- install gatsby command line tools
-- run `gatsby develop` to work on site
-- edit .MDX files inside of /docs/src/docs/
-- modify docs theme by practicing 'shadowing'
-
-If you make any changes to the docs, they will be automatically published using Netlify the next time you commit to git.
+Follow the README.md instructions inside of the /docs/ folder, which is a standalone Eleventy Project
 
 ## 📝 Generator Notes
 Currently You can Generate a Theme
