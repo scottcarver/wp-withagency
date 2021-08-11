@@ -3,7 +3,7 @@ layout: blog.njk
 title: "CSS Standards"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-# xpermalink: '/standards/css-standards/'
+permalink: '/reference/css-standards/'
 # permalink: false
 tags: reference
 eleventyNavigation:

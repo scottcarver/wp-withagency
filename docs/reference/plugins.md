@@ -3,8 +3,8 @@ layout: blog.njk
 title: "Plugins"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/plugins/'
-tags: post
+permalink: '/reference/plugins/'
+tags: reference
 eleventyNavigation:
   key: Plugins
   order: 6

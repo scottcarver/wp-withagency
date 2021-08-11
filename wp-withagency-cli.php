@@ -925,28 +925,6 @@ if (defined('WP_CLI') && WP_CLI)
         }
 
 
-        public function dadoop(){
-            /* Test Length 
-            $mixedText = 'yarzr1';
-            $min = 2;
-            $max = 5;
-            $matchAchieved = WithAgencyPluginWPCLI::testfor_lengthrange($mixedText, $min, $max);
-            */ 
-
-            /* Test special chars 
-            $mixedText = 'leter!';
-            $matchAchieved = WithAgencyPluginWPCLI::testfor_specialchars($mixedText);
-            if($matchAchieved){ WP_CLI::line('failure, remove special chars');
-            } else {  WP_CLI::line('it worked');}
-            */
-
-            /* Test for Lowercase */
-            $mixedText = 'aleter';
-            $matchAchieved = WithAgencyPluginWPCLI::testfor_lowercaseonly($mixedText);
-            $matchAchieved ? WP_CLI::line('it worked') : WP_CLI::line('it failed');
-        }
-      
-
 
         /** 
          * Test for Length

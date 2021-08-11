@@ -3,8 +3,8 @@ layout: blog.njk
 title: "Vendors"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/vendors/'
-tags: post
+permalink: '/reference/vendors/'
+tags: reference
 eleventyNavigation:
   key: Vendors
   order: 4

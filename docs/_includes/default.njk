@@ -26,10 +26,13 @@
   {%- endfor %}
   </ul>
   </nav>
+ 
+  {{ content | safe }}
 
-  <nav class="tabs">
+  <nav class="subnav">
   {% set navPages = collections.command | eleventyNavigation %}
   <ul>
+    <li><a href="/#commands">Commands:</a><li>
   {%- for entry in navPages %}
     <li{% if entry.url == page.url %} class="active"{% endif %}>
       <a href="{{ entry.url | url }}">{{ entry.title }}</a>
@@ -38,12 +41,10 @@
   </ul>
   </nav>
 
-  {{ content | safe }}
-
   <nav class="subnav">
   {% set navPages = collections.reference | eleventyNavigation %}
   <ul>
-    <li>Reference:<li>
+    <li><a href="/#reference">Reference:</a><li>
   {%- for entry in navPages %}
     <li{% if entry.url == page.url %} class="active"{% endif %}>
       <a href="{{ entry.url | url }}">{{ entry.title }}</a>
@@ -52,5 +53,6 @@
   </ul>
   </nav>
 </div>
+
 </body>
 </html>

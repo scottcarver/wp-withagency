@@ -23,5 +23,13 @@ If you run this code, the plugin will prompt for inputs
 $wp withagency theme --prompt
 ```
 
+If you run already know the parameters you want to use you can prepare them beforehand
+
+```
+$wp withagency theme --slug=
+```
+
+
+
 ## Steps for creating a New Theme
 Most of the commands surround *the act of creating a theme*, or various aspects of a theme. The above list is alphabetical but a new site will start by calling the "theme" subcommand:

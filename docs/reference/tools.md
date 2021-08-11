@@ -4,11 +4,11 @@ title: "Tools Checklist"
 emoji: '⚒️ '
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/tools/'
-tags: post
-# eleventyNavigation:
-#   key: Tools
-#   order: 2
+permalink: '/reference/tools/'
+tags: reference
+eleventyNavigation:
+  key: Tools
+  order: 3
 ---
 
 In some cases you'll need to use specific tools that are hard to swap out, notably because these are command-line tools with no visual equivilent. In others these are aspects of your personal "development environment" and you should use any tool or technique you want. For example you might choose your preferred Terminal, Version Control GUI, Code Editor, SFTP client. Alternatively you might prefer using the command line to manage all these things without graphical tools. Note that [vendors](/usage/vendors) and [plugins](/usage/plugins) are listed seperately.

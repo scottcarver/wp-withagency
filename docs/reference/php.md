@@ -3,7 +3,7 @@ layout: blog.njk
 title: "PHP Standards"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/php-standards/'
+permalink: '/reference/php/'
 tags: reference
 eleventyNavigation:
   key: PHP

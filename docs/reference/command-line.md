@@ -3,8 +3,8 @@ layout: blog.njk
 title: "Command Line"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/standards/command-line/'
-tags: docs
+permalink: '/reference/command-line/'
+tags: reference
 eleventyNavigation:
   key: CLI
   order: 8

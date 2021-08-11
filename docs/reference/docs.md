@@ -3,7 +3,7 @@ layout: blog.njk
 title: "Docs"
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/standards/docs/'
+permalink: '/reference/docs/'
 tags: reference
 eleventyNavigation:
   key: Docs

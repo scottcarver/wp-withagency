@@ -4,16 +4,14 @@ title: "Getting Setup"
 emoji: '🧰 '
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
-permalink: '/setup/'
+permalink: '/usage/'
 tags: post
 eleventyNavigation:
-  key: Setup
-  order: 3
+  key: Usage
+  order: 2
 ---
 
-This document is your guide to getting setup on Pollinate WordPress sites. If you have the required tools setup, you can get started now! Otherwise, go to the [tools checklist](tools-checklist) page and get configured first.
 
-<hr />
 
 ## Working on a WordPress Project
 Here is the basic steps for how to get setup and make changes on an existing WP site for Pollinate:
