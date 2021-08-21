@@ -1,14 +1,14 @@
 ---
 layout: blog.njk
-title: "Getting Setup"
+title: "Advanced Usage"
 emoji: '🧰 '
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/usage/'
 tags: post
 eleventyNavigation:
-  key: Usage
-  order: 2
+  key: Advanced Usage
+  order: 4
 ---
 
 

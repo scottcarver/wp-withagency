@@ -1,7 +1,7 @@
 ---
 layout: blog.njk
 title: "Introduction"
-emoji: '🥳 '
+emoji: ''
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/'
@@ -11,42 +11,17 @@ eleventyNavigation:
   order: 1
 ---
 
-"**wp withagency**" is a command line tool for creating themes in WordPress. It's very similar to the `wp cli scaffold` command but seperates features with more granularity. This is not an official tool and is opinionated, but does attempt to follow best-practices. Read more on how to get [setup](/setup/), and advice on advanced [usage](/usage/).
-
-<hr />
-
-<a id="commands"></a>
-## 🔥 Commands
-
-With the plugin installed you now have access to new functions for building WordPress themes! With your command prompt you can navigate to the the affected site and run the command `wp withagency` to show a list of **available commands**. You can also run `wp help withagency` to view the built-in **help documentation**. View documenaton for the individual commands to understand the parameters/flags needed for each.
+---
+"**wp withagency**" is a command line tool for creating themes in WordPress. It's very similar to the "**wp cli scaffold**" command but seperates features with *more granularity*. Read more on how to get [Setup](/setup/), and and begin using [Commands](/commands/). After getting through the basics, the notes on [Advanced Usage](/usage/) will be more useful. Additionally, because WP sites are complex creatures, there is a summarized overview of issues in the [Reference](/reference/) section. This is not an official tool but does attempt to follow best-practices.
 
 
-- **block** - generates a gutenberg block
-- **component** - generates a UI component
-- **endpoint** - generates an wp-json endpoint
-- **posttype** - generates a posttype definition
-- **retrofit** - generates constants in an existing theme
-- **route** - generates content at an arbitrary url
-- **taxonomy** - generates a taxonomy definition
-- **template** - generates a post|page|posttype template
-- **[theme](/commands/theme/)** - generates a WordPress theme
+### Demo
 
-<hr />
-
-<a id="reference"></a>
-## 📚 Reference
-
-These topics are tangential to the command line tool but are bound to come up. These pages are a combination of best-practices and personal preference, so beware to know when each applies.
-
-- **[Tools](/reference/Tools/)** - Overview of tools involved
-- **[Vendors](/reference/Vendors/)** - Vendor notes
-- **[Themes](/reference/themes/)** - Theme approaches
-- **[Plugins](/reference/plugins/)** - Plugins used
-- **[Git](/reference/git/)** - Version control techniques
-- **[PHP](/reference/php/)** - code standards for PHP
-- **[CSS](/reference/css/)** - code standards for CSS
-- **[JS](/reference/js/)** - code standards for JS
-- **[Docs](/reference/docs/)** - notes on editing the docs (this website)
+<div class="player">
+<video autoplay loop muted playsinline>
+  <source src="/images/video-intro.mov" type="video/mp4">
+</video>
+</div>
 
 ###
 <!-- 

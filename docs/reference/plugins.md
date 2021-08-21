@@ -42,7 +42,7 @@ This (PAID) plugin makes it easier to keep plugins and themes up to date, especi
 - [Transient Manager](http://pippinsplugins.com/transients-manager) Useful when debugging transients
 - WP All Import
 - WP Duplicate Post - useful, but Yoast recently purchased and design is suffering
-
+- 
 <br /><hr /><br />
 
 ## Installing and Managing Plugins

@@ -27,8 +27,7 @@
   </ul>
   </nav>
  
-  {{ content | safe }}
-
+  <!--
   <nav class="subnav">
   {% set navPages = collections.command | eleventyNavigation %}
   <ul>
@@ -40,7 +39,12 @@
   {%- endfor %}
   </ul>
   </nav>
+  -->
 
+  {{ content | safe }}
+
+
+<!--
   <nav class="subnav">
   {% set navPages = collections.reference | eleventyNavigation %}
   <ul>
@@ -50,6 +54,14 @@
       <a href="{{ entry.url | url }}">{{ entry.title }}</a>
     </li>
   {%- endfor %}
+  </ul>
+  </nav>
+  -->
+
+  <nav class="subnav">
+  {% set navPages = collections.reference | eleventyNavigation %}
+  <ul>
+    <li><a href="https://github.com/scottcarver/wp-withagency">Project on Github</a><li>
   </ul>
   </nav>
 </div>
