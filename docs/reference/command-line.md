@@ -32,12 +32,12 @@ We use [WP-CLI](#) tool for common tasks like installation, updates, transfers e
 - ```wp plugin install yoast-seo``` install a plugin to the Plugins directory
 
 ## Custom Commands
-With this in mind, we further extended the WP CLI class with own set of commands called ```wp pollinate``` that live inside the "wp pollinate" repo (in addition to these docs). They are most similar to the scaffold commands in that they act as generators for features that are too opinionated.
+With this in mind, we further extended the WP CLI class with own set of commands called ```wp withagency``` that live inside the "wp withagency" repo (in addition to these docs). They are most similar to the scaffold commands in that they act as generators for features that are too opinionated.
 
 ### Create Theme
 While the standard CLI tool includes some 'theme' commands including "wp scaffold underscores" to create a new theme based on Automattic's "Underscores" theme. While _s is a great theme, we have our own preferences on code style.
 
-```wp pollinate theme``` installs an opinionated theme into the /wp-content/themes/ directory. Here are some of the things you'll notice about it:
+```wp withagency theme``` installs an opinionated theme into the /wp-content/themes/ directory. Here are some of the things you'll notice about it:
 
 - the theme includes only a few templating files which are required to boot
 - functions.php is a branching off point for more logic, and no code should go here
@@ -62,7 +62,7 @@ This generates a new file and saves it into the /templates/ directory. Just run 
 <br /><hr /><br />
 
 ### Create Component
- the ```wp pollinate component``` command adds a starter component to the project, with the name you've given. To avoid the kitchen sink effect, UI elements are not included by default but you can add them as needed with. Here is the breakdown of what is in a component:
+ the ```wp withagency component``` command adds a starter component to the project, with the name you've given. To avoid the kitchen sink effect, UI elements are not included by default but you can add them as needed with. Here is the breakdown of what is in a component:
 
 - scss file that follows a client-component pattern
 - js file that follows a client-component pattern
@@ -71,7 +71,7 @@ This generates a new file and saves it into the /templates/ directory. Just run 
 <br /><hr /><br />
 
 ### Create ACF Block
-```wp pollinate block``` will quickly create a block that is authored using ACF Blocks. This is not ideal in every case, but it can be useful if you need to access PHP. This will spin up a new directory in /blocks/ - it will contain each of the elements of a component, but additionally: 
+```wp withagency block``` will quickly create a block that is authored using ACF Blocks. This is not ideal in every case, but it can be useful if you need to access PHP. This will spin up a new directory in /blocks/ - it will contain each of the elements of a component, but additionally: 
 
 - php file containing the ACF block definition
 

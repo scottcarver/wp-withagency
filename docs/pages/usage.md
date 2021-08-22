@@ -14,7 +14,7 @@ eleventyNavigation:
 
 
 ## Working on a WordPress Project
-Here is the basic steps for how to get setup and make changes on an existing WP site for Pollinate:
+Here is the basic steps for how to get setup and make changes on an existing WP site for a client:
 
 1. Have a chat with your Project Manager and review your Jira Tickets
 2. Request that an Admin login be created for you on the Prod/Staging WP
@@ -63,7 +63,7 @@ Less frequently, you will need to create a new project.
 
 1. Create a new git repository
 2. Add a WordPress installation at the root
-2. install the "WP Pollinate" plugin
+2. install the "WP With Agency" plugin
 3. use it's generators to scaffold a theme, components
 4. Activate the theme
 5. Install the plugin dependencies
@@ -81,11 +81,11 @@ mddir wordpress.clientname; cd wordpress.clientname
 # Install WP core
 wp core download
 
-# Install WP Pollinate
+# Install WP With Agency
 wp plugin pathtobitbucketrepo.zip
 
 # Generate theme
-wp pollinate theme --slug=clientname --namespace=client-name
+wp withagency theme --slug=clientname --namespace=client-name
 
 # Activate theme
 wp theme clientname
@@ -104,7 +104,7 @@ Sometimes you inherit a WordPress Site that is not under version control
 2. Add a WordPress installation at the root, create db and wp-config
 2. using sftp pull the theme and plugins from the live site to your environment
 4. Now you have the complete code. Commit everything to git.
-5. Add standard pollinate-approved plugins
+5. Add standard approved plugins
 6. Use Migrate-db-pro to sync the database and media library from live to local.
 7. Now you have the complete contents on your local environment.
 
@@ -121,7 +121,7 @@ Sometimes you get asked to make hot fixes to a site
 
 
 ## 🏄‍♀️ Retrofitting Old Themes with Gulp
-If you need to remove the current build tools (say Grunt, or Gulp 3) with our modern config setup, you can run the command ```wp pollinate gulp``` - this will generate an opinionated gulpfile.js to your theme.
+If you need to remove the current build tools (say Grunt, or Gulp 3) with our modern config setup, you can run the command ```wp withagency gulp``` - this will generate an opinionated gulpfile.js to your theme.
 
 Now install these NPM dependencies for gulp.
 

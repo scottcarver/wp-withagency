@@ -1,7 +1,7 @@
 {
-  "name": "wp-pollinate-documentation",
+  "name": "wp-withagency-documentation",
   "version": "0.0.1",
-  "description": "WP Pollinate Docs built in eleventy",
+  "description": "WP With Agency Docs built in eleventy",
   "scripts": {
     "build": "eleventy",
     "watch": "eleventy --watch",
