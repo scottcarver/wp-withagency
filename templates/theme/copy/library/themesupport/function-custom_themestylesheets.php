@@ -50,11 +50,15 @@ function add_primary_style(){
 // Fonts need to be loaded on the Frontend and Backend
 function add_secondary_style(){
 	// Filepath
-	$filepath = get_template_directory_uri().'/dist/global/main.min.css';
-	// Secondary Style
-	$timestamp = filemtime( $filepath );
-	// Enqueue
-	wp_enqueue_style('secondarystyle', $filepath, false ,$timestamp, 'all' );
+	$filepath = get_stylesheet_directory().'/dist/global/main.min.css';
+	$fileexists = file_exists($filepath);
+	// Add style if it exists
+	if($fileexists){
+		// Secondary Style
+		$timestamp = filemtime( $filepath );
+		// Enqueue
+		wp_enqueue_style('secondarystyle', $filepath, false ,$timestamp, 'all' );
+	}
 }
 
 

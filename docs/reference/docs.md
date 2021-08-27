@@ -17,7 +17,7 @@ Inside all docs files, you can define the following options:
 
 [This documentation is public](https://sleepy-murdock-0c930c.netlify.app/) site is automatically deployed to Netlify upon each git commit
 
-These guidelines are intended for the Pollinate Agency team's internal use only but we do not publish any client data. This project is public and the code is open source.
+These guidelines are intended for the internal use only but we do not publish any client data. This project is public and the code is open source.
 
 <div style="overflow-x:auto;">
   <table>

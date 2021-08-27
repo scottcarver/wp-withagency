@@ -10,20 +10,17 @@ eleventyNavigation:
   order: 5
 ---
 
-Pollinate builds custom themes to meet our agency clients' business goals. This is in contrast to the greater WordPress theme economy, which is based on volume sales of prebuilt themes (whether free or commercial.)
-
-<br /><hr /><br />
 
 ## Working with Legacy Themes
 There are sometimes cases where you are maintaining a theme built by a predecessor, or someone externally. 
 - There is always a certain amount of tension with "how much to change," and your Project manager can guide that.
-- most Pollinate themes similar in structure (functions.php, styles.scss, gulp.js manage PHP/CSS/JS, respectively)
+- most themes similar in structure (functions.php, styles.scss, gulp.js manage PHP/CSS/JS, respectively)
 - you may need to run Grunt, or an older version of Node. This is fine, but if ever it fails, instead of debugging, it's a good time to update that project to Gulp. See our Gulp configuration.
 
 <br /><hr /><br />
 
 ## Our Starter Theme Shell
-The ```wp pollinate theme``` command line tool will let you quickly spin up an opinionated, yet barebones theme. Here is what' you'll see:
+The ```wp withagency theme``` command line tool will let you quickly spin up an opinionated, yet barebones theme. Here is what' you'll see:
 - files required by WordPress to boot including style.css, functions.php, index.php, etc
 - config/build files including package.json, gulp.js
 - A Template directory at /template/ with page/post/custom templates

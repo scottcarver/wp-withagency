@@ -35,7 +35,6 @@ This (PAID) form builder plugin is fairly robust, and we use it by default as th
 - [Yoast SEO Premium](https://yoast.com) We use this very popular SEO plugin on most sites, but has some downsides and is not a "must use"
 - [WP Pusher](http://wppusher.com/)
 This (PAID) plugin makes it easier to keep plugins and themes up to date, especially when they are *not in the public repo* but live in a private repo. We use this for managing deployment of our proprietary inhouse plugins.
-- Pollinate Headless Plugin - this internal tool is added to sites added as needed.
 - [WP Mail SMTP](https://wordpress.org/plugins/wp-mail-smtp/) Provides integration with SendGrid
 - [Debug Bar](https://wordpress.org/plugins/debug-bar/) shows you JS and PHP errors in a helpful way for debugging
 - [Media Library Categories Premium](https://wordpress.org/plugins/wp-media-library-categories/) a PAID plugin for adding a custom taxonomy to the media library entries

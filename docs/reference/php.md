@@ -195,7 +195,7 @@ This is the package manager solution for PHP. It's very similar to NPM, but for 
     - acf-block
     - posttype
     - component
-- install required pollinate plugins
+- install required plugins
 - a combined "boot site" that generates an opinionated site with all preconfigurations
 - install Gatbsy at the root, and use it to generate docs from .MDX files (might need deployment on Github pages instead of Bitbucket)
     

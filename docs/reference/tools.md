@@ -24,7 +24,7 @@ You will need to use [Node.js](https://nodejs.org) for a variety of tasks. Most 
 Though there are many options, we still rely primarily on Gulp for compiling css and javascript. We're deploying code automatically through Pipelines/Buddy/Netlify.
 
 ### WordPress CLI
-It's recommended that you install and manage WordPress using the CLI commands when possible. Anything you can do in the admin, you can do with the CLI, and the "wp pollinate" command line tools build ontop of WP-CLI. This will allow you to ```install core``` and quickly configure the site with ```wp core config``` - When creating the initial admin username, use your first name. Do not use usernames like "Admin","Sitemaster", etc.
+It's recommended that you install and manage WordPress using the CLI commands when possible. Anything you can do in the admin, you can do with the CLI, and the "wp withagency" command line tools build ontop of WP-CLI. This will allow you to ```install core``` and quickly configure the site with ```wp core config``` - When creating the initial admin username, use your first name. Do not use usernames like "Admin","Sitemaster", etc.
 
 
 <br /><hr /> 

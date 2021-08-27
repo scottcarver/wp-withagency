@@ -11,8 +11,6 @@ eleventyNavigation:
 ---
 
 
-We use [Bitbucket](https://bitbucket.org/pollinate-dev/) for managing our git repos which also has some nice integrations with our bug tracking software [Jira](https://pollinate-jira.atlassian.net/) (both Atlassian products). The agency also has a Github account but it's used less commonly since the switchover, and generally you won't need to access it.
-
 ## Software
 
 You are welcome to manage your git activity in a terminal environment or a graphical user interface. It doesn't matter as long as you follow the general guidelines. Examples of graphical git clients currently in use by the team include [Git Tower](https://www.git-tower.com/) and [Git Kraken](https://www.gitkraken.com/). This is an example of software that is directly related to work that makes you more productive so purchasing it is easliy justified. Reach out to your manager and they'll get you a license.
