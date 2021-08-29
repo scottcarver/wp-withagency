@@ -1,8 +1,39 @@
+# "{{name}}" Theme
 
-This is not the readme for the "{{name}}" theme.
+This readme covers how to work on the "{{name}}" WordPress theme.
 
-To work on the site run these commands
+![Theme Screenshot](/screenshot.png)
+
+## Build Scripts
+
+To work on the site run this command to install the npm dependencies:
 ``npm install``
-(dependencies will install)
-``gulp``
-(watch command will begin)
+
+To work on the site with a local server, livereload and file watching:
+``gulp watch``
+
+**Additional Scripts:**
+Create /dist/ without a server:
+``gulp build``
+
+you can to do the same with:
+``gulp`` 
+
+**NPM Bindings:**
+Additionally there are NPM scripts available bound to the above tasks at:
+
+``npm run gulp`` and ``npm run watch``
+
+**Clean Task:**
+It is sometimes useful to **delete the generated files.** You can do this with ``gulp clean`` ('style.css' file and '/dist/' directory will be deleted). Regenrate all the files again by running `gulp build`
+
+## External Builds
+The **/dist/** file and **style.css** are critical for theme operation, yet are **not included in version control** - if the site is synched with a devops style deploy script it will be critical to run `gulp` and generate the dist file programatically.
+
+
+
+
+# Working on the gulpfile
+The build scripts can be edited at ``gulpfile.js/index.js`` and surrounding files (javsascript_combined.json and javascript_copied.json)
+
+Each function is annotated but they can be refined as needed. Note how the functions ``watch`` and ``buid`` are defined and relate to the notes above!

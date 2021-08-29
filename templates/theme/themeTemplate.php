@@ -49,7 +49,20 @@ function themeTemplate(){
             'template'=>'theme/config/gulpfile.js.mustache',
             'output'=> '/gulpfile.js/index.js',
         ),
-        /* 
+        array(
+            'template'=>'theme/config/javascript_combined.json.mustache',
+            'output'=> '/gulpfile.js/javascript_combined.json',
+        ),
+        array(
+            'template'=>'theme/config/gitignore.mustache',
+            'output'=> '/.gitignore',
+        ),
+        array(
+            'template'=>'theme/config/stdLib.js.mustache',
+            'output'=> '/library/script/custom/stdLib.js',
+        ),
+        
+        /*
         array(
             'template'=>'theme/config/wp-cli.yml.mustache',
             'output'=> '/wp-cli.yml',

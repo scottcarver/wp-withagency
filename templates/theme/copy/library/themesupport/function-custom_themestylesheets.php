@@ -31,6 +31,13 @@ function add_acfoverride_stylesheet() {
 add_action( 'admin_enqueue_scripts', 'add_acfoverride_stylesheet' );
 
 
+// Fonts need to be loaded on the Frontend and Backend
+function add_primary_style(){
+	// Primary Style
+	$cssver = filemtime( get_template_directory().'/style.css' );
+	wp_enqueue_style('primarystyle', get_template_directory_uri().'/style.css', false ,$cssver, 'all' );
+}
+
 
 // Fonts need to be loaded on the Frontend and Backend
 function add_fonts(){
@@ -40,12 +47,7 @@ function add_fonts(){
 	wp_enqueue_style('nexafont', get_template_directory_uri() . '/library/fonts/nexa/MyFontsWebfontsKit.css', false ,'1.0', 'all' );
 }
 
-// Fonts need to be loaded on the Frontend and Backend
-function add_primary_style(){
-	// Primary Style
-	$cssver = filemtime( get_template_directory().'/style.css' );
-	wp_enqueue_style('primarystyle', get_template_directory_uri().'/style.css', false ,$cssver, 'all' );
-}
+
 
 // Fonts need to be loaded on the Frontend and Backend
 function add_secondary_style(){
