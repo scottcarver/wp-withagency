@@ -11,6 +11,22 @@ eleventyNavigation:
 ---
 
 
+## Technical Background
+The plugin consists of a PHP Class which extends WP-CLI. Open the `wp-withagency-cli.php` and review the public functions (the subcommands). Many of the techniques are lifted from [this post]( https://firxworx.com/blog/wordpress/how-to-write-custom-wp-cli-commands-for-wordpress-automation/). In an attempt to avoid conflict I've attempted to go "the WordPress way" when possible. An example is reusing *Mustache* already available with the "scaffold" command for all of these additions.
+
+#### Private Functions:
+The I Class has helper functions which are private and used internally, mostly to ensure valid input.
+
+- **is_prefixworthy** - evaluates the inputted "prefix" and determines it's validity based on these criteria: 5 chars max, lowercase only, no special chars. *Example: xxx*
+- **is_domainworthy** - evaluates the inputted "text domain" and determines it's validity based on these criteria: 20 chars max, lowercase only, no special chars except dashes (-). *Example: xxxx-xxxxx*
+- **is_nameworthy** - evaluates the inputted "Name" and determines it's validity based on these criteria: 15 chars max, lowercase/lowercase only, no special chars *Example: xxxx-xxxxx*
+- **is_slugworthy**
+- **is_generatorworthy**
+- **nice_render**
+- **nice_documentationurl**
+- **nice_duplicatefolder**
+- **nice_tailfile**
+
 We aim to balance industry *standards* with agency *conventions* and the *philosopy* of following the "WordPress Way." Some of this evolves over time. This document is primarly focused on "writing code going forward" and intends to make life easier, not harder. In the event you are working on a legacy project, use these guidelines in making updates but don't feel like you need to refactor entirely. If there is a issue that also requires refactoring to complete, discuss with your Project Manager to make sure you track your time correctly.
 
 

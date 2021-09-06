@@ -10,99 +10,19 @@ eleventyNavigation:
   order: 22
 ---
 
-By creating a MDX file inside your docs folder it will be created as a page, with the path defined by the filename.
-Inside all docs files, you can define the following options:
-[Get started now!](/getting-started)
+The [docs](https://wp-withagency.netlify.app/) are created in Eleventy. This is part of the main repo, nestled in the /docs/ directory of the repo. Notice how the content is rendered to the /public/ folder. Entries are divided into these three subfolders: 1) pages 2) commands 3) reference
 
 
-[This documentation is public](https://sleepy-murdock-0c930c.netlify.app/) site is automatically deployed to Netlify upon each git commit
+### Installation
 
-These guidelines are intended for the internal use only but we do not publish any client data. This project is public and the code is open source.
+Run the command `npm install` to install all the needed dependencies.
 
-<div style="overflow-x:auto;">
-  <table>
-    <tr>
-      <th>Key</th>
-      <th>Required?</th>
-      <th>Description</th>
-    </tr>
-    <tr>
-      <td>title</td>
-      <td>Yes</td>
-      <td>Page title</td>
-    </tr>
-    <tr>
-      <td>description</td>
-      <td>No</td>
-      <td>Page description</td>
-    </tr>
-    <tr>
-      <td>image</td>
-      <td>No</td>
-      <td>Used for og:image</td>
-    </tr>
-  </table>
-</div>
 
-### Example:
+### Serve Site Locally
 
-```mdx
----
-title: 'My Example'
-description: 'A simple description for this page'
-image: /banner.jpeg
----
+Run a local server with `npm run serve` with livereloading.
 
-Wow, this is a nice page
-```
 
-## Embeding files
+### Autodeploy
 
-In a documentation website, sometimes you will need to embed well known services (like CodeSandbox, Twitter, or others...). If you need to
-do it, you can simply copy-paste the link (powered by the awesome [gatsby-remark-embeder](https://www.gatsbyjs.org/packages/gatsby-remark-embedder/)).
-Make sure to check the [supported services](https://github.com/MichaelDeBoey/gatsby-remark-embedder#supported-services).
-
-https://youtu.be/QfcozcbDhNM
-
-## Code Highlight
-
-### Title
-
-To show the title, just add it to your code block. Ex: `title=src/myfile.css`
-
-```css title=src/myfile.css
-.gatsby::before {
-  content: 'niceee...';
-}
-```
-
-### Line numbers
-
-If you want to show line number, just add a option `lineNumbers=true`.
-
-```js lineNumbers=true
-const rocket = {
-  launch: () => console.log('Launching...'),
-};
-
-rocket.launch();
-```
-
-### React live
-
-As mentioned in the introduction, this theme uses `react-live`, so you can
-create a playground for live editing React components.
-
-To use it, just add a `live=true` option to your code block.
-
-```jsx live=true
-function MyComponent() {
-  function handleButtonClick() {
-    alert('wowww');
-  }
-
-  return <button onClick={handleButtonClick}>Hey, click me!</button>;
-}
-
-render(<MyComponent />);
-```
+The docs repo builds automatically using Netlify.

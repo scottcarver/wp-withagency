@@ -1,7 +1,7 @@
 ---
 layout: blog.njk
 title: "Getting Setup"
-emoji: '🧰 '
+emoji: ''
 date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/setup/'
@@ -11,22 +11,23 @@ eleventyNavigation:
   order: 2
 ---
 
-Before you can use this plugin first install [WP CLI](https://wp-cli.org/) which is which is required for this project. The generater uses a PHP Class which extends WP CLI and adds new functionality.
+1. First Install [WP CLI](https://wp-cli.org/#installing), which is which is required for this project.
+2. Download the latest version of the [WP Withagency](https://github.com/scottcarver/wp-withagency) plugin. 
+3. Activate the "WP Withagency" plugin in your WP installation.
+3. Confirm it's working by typing `wp withagency` while inside of your WP site on the command line.
 
 ---
 
-1. Download the latest version of the [wp withagency](https://github.com/scottcarver/wp-withagency) plugin. Install and and activate in your WP installation.
-\
-\
-**You can do this on the command line with:** <br /><div class="longcode">`wp plugin install https://github.com/scottcarver/wp-withagency/archive/refs/heads/master.zip --activate`</div>
+### ✨Quick Setup
 
-2. Confirm it's working by typing `wp with agency` while inside of your WP site on the command line.
+**Cool Tip:** Once you have WP CLI installed you can do steps 2-4 on the command line with this one-liner to install, activate and test the plugin:
+ <br /><div class="longcode">`wp plugin install https://github.com/scottcarver/wp-withagency/archive/refs/heads/master.zip --activate; wp with agency`</div>
 
----
+<br />
 
-### Demo of Basic Function and Help Command
-This shows all the publicly available functions within the tool. These docs, and the slug parameters, are generated automatically from PHP documentation in the *wpwithagency PHP Class*.
+### Demonstration
 
+With the plugin activated you can run both the `wp withagency` command, but more imporantly the subcommands.
 <figure class="player">
 <video autoplay loop muted playsinline controls>
   <source src="/images/video-intro.mov" type="video/mp4">

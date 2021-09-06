@@ -17,36 +17,20 @@
   <nav class="tabs">
   {% set navPages = collections.post | eleventyNavigation %}
   <ul>
-  {%- for entry in navPages %}
-    <li{% if entry.url == page.url %} class="active"{% endif %}>
-      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
-    </li>
-  {%- endfor %}
+  {%- for entry in navPages %}<li{% if entry.url == page.url %} class="active"{% endif %}><a href="{{ entry.url | url }}">{{ entry.title }}</a></li>{%- endfor %}<!--<li class="github"><a href="https://github.com/scottcarver/wp-withagency" target="_blank">Github</a><li>-->
   </ul>
   </nav>
  
-  <!--
-  <nav class="subnav">
-  {% set navPages = collections.command | eleventyNavigation %}
-  <ul>
-    <li><a href="/#commands">Commands:</a><li>
-  {%- for entry in navPages %}
-    <li{% if entry.url == page.url %} class="active"{% endif %}>
-      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
-    </li>
-  {%- endfor %}
-  </ul>
-  </nav>
-  -->
+
 
   {{ content | safe }}
 
 
 <!--
   <nav class="subnav">
-  {% set navPages = collections.reference | eleventyNavigation %}
+  {% set navPages = collections.command | eleventyNavigation %}
   <ul>
-    <li><a href="/#reference">Reference:</a><li>
+    <li><a href="/commands">Commands:</a><li>
   {%- for entry in navPages %}
     <li{% if entry.url == page.url %} class="active"{% endif %}>
       <a href="{{ entry.url | url }}">{{ entry.title }}</a>
@@ -54,14 +38,26 @@
   {%- endfor %}
   </ul>
   </nav>
-  -->
+-->
+  <nav class="subnav">
+  {% set navPages = collections.reference | eleventyNavigation %}
+  <ul>
+    <li>Reference:<li>
+  {%- for entry in navPages %}
+    <li{% if entry.url == page.url %} class="active"{% endif %}>
+      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+    </li>
+  {%- endfor %}
+  </ul>
+  </nav>
 
+{# 
   <nav class="subnav">
   {% set navPages = collections.reference | eleventyNavigation %}
   <ul>
     <li><a href="https://github.com/scottcarver/wp-withagency">Project on Github</a><li>
   </ul>
-  </nav>
+  </nav> #}
 </div>
 
 </body>

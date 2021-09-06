@@ -7,10 +7,10 @@ you can manipulate/minify them (with a plugin.) Remove any unused.
 
 // Add frontend styles for Gutenberg.
 function custom_theme_css() {
-	// Modal CSS
-	add_modal_style();
 	// everything is compiled with grunt
 	add_primary_style();
+	// Frontend styles
+	add_secondary_style();
 	// Add Fonts
 	add_fonts();
 } add_action('wp_enqueue_scripts', 'custom_theme_css');
@@ -33,11 +33,35 @@ add_action( 'admin_enqueue_scripts', 'add_acfoverride_stylesheet' );
 
 // Fonts need to be loaded on the Frontend and Backend
 function add_primary_style(){
-	// Primary Style
-	$cssver = filemtime( get_template_directory().'/style.css' );
-	wp_enqueue_style('primarystyle', get_template_directory_uri().'/style.css', false ,$cssver, 'all' );
+	// Filepath
+	$filename = '/style.css';
+	$filepath = get_template_directory().$filename;
+	$fileexists = file_exists($filepath);
+	
+	// Add style if it exists
+	if($fileexists){
+		// // Primary Style
+		$timestamp = filemtime( $filepath );
+		// Enqueue
+		wp_enqueue_style('primarystyle', get_template_directory_uri().$filename, false ,$timestamp, 'all' );
+	}
 }
 
+
+// Fonts need to be loaded on the Frontend and Backend
+function add_secondary_style(){
+	// Filepath
+	$filename = '/dist/global/main.min.css';
+	$filepath = get_template_directory().$filename;
+	$fileexists = file_exists($filepath);
+	// Add style if it exists
+	if($fileexists){
+		// Secondary Style
+		$timestamp = filemtime( $filepath );
+		// Enqueue
+		wp_enqueue_style('secondarystyle', get_template_directory_uri().$filename, false ,$timestamp, 'all' );
+	}
+}
 
 // Fonts need to be loaded on the Frontend and Backend
 function add_fonts(){
@@ -48,20 +72,6 @@ function add_fonts(){
 }
 
 
-
-// Fonts need to be loaded on the Frontend and Backend
-function add_secondary_style(){
-	// Filepath
-	$filepath = get_stylesheet_directory().'/dist/global/main.min.css';
-	$fileexists = file_exists($filepath);
-	// Add style if it exists
-	if($fileexists){
-		// Secondary Style
-		$timestamp = filemtime( $filepath );
-		// Enqueue
-		wp_enqueue_style('secondarystyle', $filepath, false ,$timestamp, 'all' );
-	}
-}
 
 
 // Custom Tiny MCE Style (used mainly for Text Area Block)
@@ -77,12 +87,4 @@ function override_tinymce_styles( $mce_init ) {
 	}
 	// Return the settings, regardless of whether they changed
 	return $mce_init;
-}
-
-// Add CSS for Modals (Second Chance Modal)
-function add_modal_style(){
-	if(is_page('my-agency')){
-		// Fancybox CSS
-		wp_enqueue_style('fancybox', get_template_directory_uri().'/library/styles/vendor/fancybox/jquery.fancybox.css', false ,'0.0.1', 'all' );
-	}
 }
