@@ -1,7 +1,19 @@
 <?php
 
-/* Alphabetical list of Consolidated features inside of subfiles, for easier management. This includes
-(block|component|constant|endpoint|integration|posttype|route|taxonomy|themesupport|template)
+/**
+ * Alphabetical list of features:
+ * 
+ * 1. blocks
+ * 2. components
+ * 3. constants
+ * 4. endpoints
+ * 5. integrations
+ * 6. posttypes
+ * 7. routes
+ * 8. taxonomies
+ * 9. themesupport
+ * 10. required plugins
+ */
 
 /********* BLOCKS ************/
 require_once('library/function/custom/custom_blocks.php');
@@ -30,6 +42,6 @@ require_once('library/function/custom/custom_taxonomies.php');
 /********* THEME FEATURES ************/
 require_once('library/function/custom/custom_themesupport.php');
 
-
-
+/********* REQUIRED PLUGINS ************/
+require_once('library/function/custom/custom_requiredplugins.php');
 

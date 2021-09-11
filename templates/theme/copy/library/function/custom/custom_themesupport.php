@@ -19,7 +19,8 @@ require_once(get_template_directory().'/library/themesupport/function-custom_log
 require_once(get_template_directory().'/library/themesupport/function-custom_themejavascript.php');
 // Add Theme CSS
 require_once(get_template_directory().'/library/themesupport/function-custom_themestylesheets.php');
-
+// Add Body Classes
+require_once(get_template_directory().'/library/themesupport/function-custom_bodyclass.php');
 /* Left off Here, in my evaluation */
 /*
 // Limit Block Types
@@ -28,8 +29,7 @@ require_once('library/functions/function-custom_allowedblocktypes.php');
 require_once('library/functions/function-custom_blockcategories.php');
 // URL Mods
 // require_once('library/functions/function-custom_urlmods.php');
-// Add Body Classes
-require_once('library/functions/function-custom_bodyclass.php');
+
 
 // Add Block Categories
 require_once('library/functions/function-custom_breadcrumbs.php');

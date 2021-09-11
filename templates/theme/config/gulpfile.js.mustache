@@ -1,17 +1,17 @@
 // Required Node/Gulop Plugins
-const del = require('del');
-const browserSync = require('browser-sync').create();
-const gulp = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
-const minifycss = require('gulp-clean-css');
+const browserSync = require('browser-sync').create();
 const concat = require('gulp-concat');
+const del = require('delete');
 const flatten = require('gulp-flatten');
+const gulp = require('gulp');
+const minifycss = require('gulp-clean-css');
+const minifymq = require('gulp-group-css-media-queries');
 const rename = require('gulp-rename');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
-const minifymq = require('gulp-group-css-media-queries');
 
 
 /* Distinct Use Cases
@@ -20,24 +20,21 @@ const minifymq = require('gulp-group-css-media-queries');
 - process compontent js into oneoff js files at (/dist/components)
 */
 
-
-// My Files
-// const userScripts = require('./javascript_combined.json');
-// const userCopiedScripts = require('./javascript_copied.json');
-
-// Paths for src/dest
+// Paths for Processing All CSS, JS, Media
 var paths = {
+  // Theme Definition
   primarycss: {
     src: 'library/style/style.scss',
     dest: '.'
   },
+  // Process SCSS in /style/ dir, but not the primarycss
   styles: {
     src: ['library/style/**/*.scss', '!library/style/style.scss'],
-    //  src: ['library/style/editor.scss', 'library/style/main.scss'],
     dest: 'dist/global/'
   },
+  // Copy Each Block SCSS individually, ignore if starts with _
   blocks: {
-    src: 'library/block/**/*.scss',
+    src: ['library/block/**/*.scss', '!**/_*/**'],
     dest: 'dist/blocks/'
   },
   // Underscore makes invisible, ignore if starts with _
@@ -45,12 +42,12 @@ var paths = {
     src: ['library/block/**/*.js', '!**/_*/**'],
     dest: 'dist/blocks/'
   },
-  // Component CSS
+  // Component CSS is Combined
   components: {
     src: 'library/component/**/*.scss',
     dest: 'dist/component/'
   },
-  // Component JS
+  // Component JS is Combined
   componentjs: {
     // All individual js files for each component, ignore if starts with _
     src: ['library/component/**/*.js', '!**/_*/**'],
@@ -77,14 +74,14 @@ var paths = {
 
 
 /* 
- * deletes the contents of /dist
+ * Deletes the contents of /dist
  */
 function clean() {
   return del(['dist', 'style.css']);
 }
 
 /** 
- * creates /style.css 
+ * Creates /style.css 
  * contains a style definition only, read by the server but not enqueued
  */ 
 function primaryStyle() {
@@ -96,10 +93,10 @@ function primaryStyle() {
     .pipe(browserSync.stream());
 }
 
-/*
- * Define our tasks using plain functions
+/**
+ * Creates CSS for frontend and editor
+ * /dist/global/main.min.css and /dist/global/editor.min.css
  */
-// creates /dist/global/main.min.css and /dist/global/editor.min.css
 function combineGlobalStyles() {
   return gulp.src(paths.styles.src)
     .pipe(sourcemaps.init())
@@ -113,7 +110,9 @@ function combineGlobalStyles() {
     .pipe(browserSync.stream());
 }
 
-// creates oneoff css in /dist/blocks/*
+/**
+ * Creates oneoff Block CSS for each in /dist/blocks/*
+ */
 function copyBlocksCSS() {
   return gulp.src(paths.blocks.src)
     .pipe(flatten())
@@ -128,7 +127,9 @@ function copyBlocksCSS() {
     .pipe(browserSync.stream());
 }
 
-// creates oneoff js in /dist/blocks/*
+/**
+ * Creates oneoff Block JS in /dist/blocks/*
+ */
 function copyBlocksJS() {
   return gulp.src(paths.blocksjs.src)
     .pipe(flatten())
@@ -202,13 +203,13 @@ function copyScripts(){
 }
 
 /* Are both Uglify and Concat Needed? */
-
-function watch() {
-  
-  browserSync.init({
-    port: 8888,
-    proxy: 'localhost/test-wp-cli/', // Proxy running on localhost:8888
-  });
+/**
+ * Watch Everything
+ * 
+ * Registers a series of watch commands for each individual asset-type
+ * These run individually, unlike the buildcommand which runs all tasks
+ */
+function watchEverything() {
   // Primary CSS
   gulp.watch(paths.primarycss.src, primaryStyle);
   // Combined Global Styles (main.min.css)
@@ -224,24 +225,53 @@ function watch() {
   gulp.watch(paths.images.src, copyImages);
   gulp.watch(paths.fonts.src, copyFonts);
   gulp.watch(paths.scripts.copied, copyScripts);
-  
+}
+
+/** 
+ * Run a Browsersync service to inline assets while watching
+ *  
+ * */
+function runBrowserSync(){
+   // Proxy running on localhost:8888/test-wp-cli/
+   browserSync.init({
+    port: 8888,
+    proxy: 'localhost/test-wp-cli/',
+  });
 }
 
 /*
- * Specify if tasks run in series or parallel using `gulp.series` and `gulp.parallel`
+ * Specify if tasks to be run in order
  */
-var allTasks = [primaryStyle, combineGlobalStyles, combineScripts, copyBlocksCSS, copyBlocksJS, copyComponentJS, copyComponentCSS, copyImages, copyFonts];
+var allTasks = [
+  primaryStyle, 
+  combineGlobalStyles, 
+  combineScripts,
+  copyBlocksCSS, 
+  copyBlocksJS, 
+  copyComponentJS, 
+  copyComponentCSS, 
+  copyImages, 
+  copyFonts
+];
+
+/**
+ * Create a series which cleans/builds
+ */
 var buildSeries = gulp.series(clean, gulp.parallel(allTasks));
-var watchSeries = gulp.series(clean, buildSeries, watch);
 
-/*
- * CommonJS `exports` notation use used to declare tasks
+/**
+ * Create a series which also cleans/builds/watches/synch
  */
+var watchSeries = gulp.series(clean, buildSeries, runBrowserSync, watchEverything);
 
-exports.watch = watchSeries; // A series of tasks for 'watch'
-exports.build = buildSeries; // A series of tasks for 'build'
+/**
+ * Exports clean/build/watch commands
+ * - gulp clean
+ * - gulp build
+ * - gulp watch
+ * - gulp
+ */
 exports.clean = clean; // a task that deletes /dist entirely
-/*
- * Define default task that can be called by just running `gulp` from cli
- */
-exports.default = buildSeries;
+exports.build = buildSeries; // A series of tasks for 'build'
+exports.watch = watchSeries;  // Watch series for clean/build/serve
+exports.default = buildSeries; // Does the same as build

@@ -1,5 +1,6 @@
 [
 	"library/script/vendor/jquery-3.5.1.slim.min.js",
     "library/script/vendor/axios-0.19.2.min.js",
+    "library/script/vendor/js.cookie.min.js",
     "library/script/vendor/parsley.js"
 ]
