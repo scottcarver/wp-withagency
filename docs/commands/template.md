@@ -27,22 +27,21 @@ If you run this code, the plugin will prompt for inputs
 ***
 
 ### 📌 Required Values
-- **slug** - this will be used in the filename that is created - *This should be lowercase and no special characters except dashes (-)*
-- **name** - this will be the Name of The Template which will appear in the WP admin selection screen.  *This can include upper/lowercase letters and spaces*
-
+- **slug** - used in *the filename* that is created. Uses [is_slugworthy](/reference/class/#slug)
+- **name** - the *name of the template* in the WP admin selection screen. Uses [is_nameworthy](/reference/class/#name)
 
 ***
 
 ### ⚙️ Advanced Usage
-If you know the values you want to use beforehand, you can pass the parameters into the command all at once and *Create a New Theme with a Single Line*:
+If you know the values you want to use beforehand, you can pass the parameters into the command all at once and *Create a New Template with a Single Line*:
 
 ```
-wp withagency theme --slug=homepage --name=Homepage
+wp withagency template --slug=home --name=Homepage
 ```
 
 **Typing this into the terminal would:**
 1. create a new file in an existing folder "templates/page-home.php" 
-2. That file would include reference to the "name"
+2. That file would include reference to "Template Name: Homepage"
 
 ***
 

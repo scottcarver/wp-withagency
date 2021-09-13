@@ -6,9 +6,9 @@ excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/reference/css-standards/'
 # permalink: false
 tags: reference
-eleventyNavigation:
-  key: CSS
-  order: 11
+# eleventyNavigation:
+#   key: CSS
+#   order: 11
 ---
 
 

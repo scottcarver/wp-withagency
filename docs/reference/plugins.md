@@ -10,7 +10,7 @@ eleventyNavigation:
   order: 6
 ---
 
-Beware. Almost all plugins are garbage. We use the same few "pro developer plugins" on every site, and rarely introduce new plugins.
+We use the same few "pro developer plugins" on every site, and rarely introduce new plugins.
 They are well-vetted and we have "agency licenses" for the PAID plugins listed. Use them on every site and enjoy your beautiful life. 
 
 <br /><hr /><br />
@@ -41,16 +41,16 @@ This (PAID) plugin makes it easier to keep plugins and themes up to date, especi
 - [Transient Manager](http://pippinsplugins.com/transients-manager) Useful when debugging transients
 - WP All Import
 - WP Duplicate Post - useful, but Yoast recently purchased and design is suffering
-- 
+
 <br /><hr /><br />
 
-## Installing and Managing Plugins
+<!-- ## Installing and Managing Plugins
 - auto-install plugin script
 - WP Pusher
 - WP Engine Smart Plugin manager
 - WP CLI 
 
-<br /><hr /><br />
+<br /><hr /><br /> -->
 
 
 ## How to evaluate a plugin
@@ -61,16 +61,15 @@ This (PAID) plugin makes it easier to keep plugins and themes up to date, especi
 - does the plugin have a pro/PAID version (not necessarily bad, might mean the project is healthy, and preferable to an ad-model. We actively seek to pay money for solutions that have an outsized effect on effeciency).
 - does it do one thing well, or is it attempting to be a lot of things (multi-use is often bad)
 
-<br /><hr /><br />
-
+***
 ## Building a custom plugin
-Sometimes you'll legitimately need to create a project specific plugin. In that case we use the WP Cli tools for scaffolding plugins read more about this here, but this is the gist of it ```wp scaffold plugin --name```
+Sometimes you'll legitimately need to create a project specific plugin. In that case we use the WP ClI tools for scaffolding plugins read more about this here, but this is the gist of it ```wp scaffold plugin --name```
 
 
 <br /><hr /><br />
 
 
 ## Clients and Plugins
-Sometimes clients want to be able to access their website and add plugins. This eschews our evaluation process and is not ideal, but sometimes you just have to go with it. In this situation it's good to remind the client that there are risks involved, especially when experimenting on the live site. Encourage them to make changes on the staging site. Then, once things look good, let us know so we can can 1) Evaluate it 2) add that new plugin to version control and 3) ensure it's used on localhost and live sites consistently
+Sometimes clients want to be able to access their website and add plugins. This eschews the evaluation process and is not ideal, but sometimes you just have to go with it. In this situation it's good to remind the client that there are risks involved, especially when experimenting on the live site. Encourage them to make changes on the staging site. Then, once things look good, let us know so we can can 1) Evaluate it 2) add that new plugin to version control and 3) ensure it's used on localhost and live sites consistently
 
 

@@ -5,9 +5,9 @@ date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/reference/themes/'
 tags: reference
-eleventyNavigation:
-  key: Themes
-  order: 5
+# eleventyNavigation:
+#   key: Themes
+#   order: 5
 ---
 
 

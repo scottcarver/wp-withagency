@@ -5,29 +5,10 @@ date: 2020-04-02
 excerpt: "This post talks about how one day I'll write a 1st post."
 permalink: '/reference/php/'
 tags: reference
-eleventyNavigation:
-  key: PHP
-  order: 10
+# eleventyNavigation:
+#   key: PHP
+#   order: 10
 ---
-
-
-## Technical Background
-The plugin consists of a PHP Class which extends WP-CLI. Open the `wp-withagency-cli.php` and review the public functions (the subcommands). Many of the techniques are lifted from [this post]( https://firxworx.com/blog/wordpress/how-to-write-custom-wp-cli-commands-for-wordpress-automation/). In an attempt to avoid conflict I've attempted to go "the WordPress way" when possible. An example is reusing *Mustache* already available with the "scaffold" command for all of these additions.
-
-#### Private Functions:
-The I Class has helper functions which are private and used internally, mostly to ensure valid input.
-
-- **is_prefixworthy** - evaluates the inputted "prefix" and determines it's validity based on these criteria: 5 chars max, lowercase only, no special chars. *Example: xxx*
-- **is_domainworthy** - evaluates the inputted "text domain" and determines it's validity based on these criteria: 20 chars max, lowercase only, no special chars except dashes (-). *Example: xxxx-xxxxx*
-- **is_nameworthy** - evaluates the inputted "Name" and determines it's validity based on these criteria: 15 chars max, lowercase/lowercase only, no special chars *Example: xxxx-xxxxx*
-- **is_slugworthy**
-- **is_generatorworthy**
-- **nice_render**
-- **nice_documentationurl**
-- **nice_duplicatefolder**
-- **nice_tailfile**
-
-We aim to balance industry *standards* with agency *conventions* and the *philosopy* of following the "WordPress Way." Some of this evolves over time. This document is primarly focused on "writing code going forward" and intends to make life easier, not harder. In the event you are working on a legacy project, use these guidelines in making updates but don't feel like you need to refactor entirely. If there is a issue that also requires refactoring to complete, discuss with your Project Manager to make sure you track your time correctly.
 
 
 
@@ -138,108 +119,6 @@ Writing these is very tedious at first, but once you realize what's going on it'
 
  Sometimes that means using multiple variables/types or using an open-ended type like a {Function}, {Object} or {Class} for encapsulating complex data.
 
-### function
-
-```php
-gatsby new rocket-docs https://github.com/rocketseat/gatsby-starter-rocket-docs
-```
-
-But, if you prefer, you can install and configure manually.
-
-```bash
-# Using Yarn:
-yarn add @rocketseat/gatsby-theme-docs
-
-# Using NPM:
-npm i @rocketseat/gatsby-theme-docs
-```
-
-## Theme Options
-
-| Key        | Default | Required | Description                                                                                                                    |
-| ---------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| basePath   | /       | No       | Root url for all docs                                                                                                          |
-| configPath | config  | No       | Location of config files                                                                                                       |
-| docsPath   | docs    | No       | The site description for SEO and social (FB, Twitter) tags                                                                     |
-| githubUrl  | -       | No       | The complete URL of your repository. For example: `https://github/rocketseat/gatsby-themes`                                    |
-| baseDir    | -       | No       | If your Gatsby site does not live in the root of your project directory/git repo, pass the subdirectory name here (ex: `docs`) |
-
-## Example usage
-
-
-
-Once you have installed the dependencies you will need to create the [navigation](/usage/navigation) and [documentation](/usage/creating-docs) file.
-
-After that, you are ready 🚀
-
-
-
-
-# Link to instructions on installing Composer
-https://gist.github.com/tomysmile/3b37ab4a1ddd604093fe724d0a882166
-
-
-You will need to be comfortable using these:
-
-- Node/NPM/Gulp
-- Homebrew/Composer
-- WP CLI
-
-
-#NPM
-
-This is the package manager solution for Node. 
-
-- This reads from package.json, and writes assets to /node_modules/
-- modules are hosted in the NPM directory (github now)
-
-#Composer
-
-This is the package manager solution for PHP. It's very similar to NPM, but for PHP libraries. 
-
-- This reads from composer.json, and writes assets to /vendor/
-- all modules are hosted at https://packagist.org/
-
-
-#Goals
-
-- generate an opinioned base-theme
-- generate relevant docs and readmes
-- generate depenency files like package.json, composer.json
-- generated an opinionated component-set (buttons, links, etc)
-- interface for generating one-offs
-    - acf-block
-    - posttype
-    - component
-- install required plugins
-- a combined "boot site" that generates an opinionated site with all preconfigurations
-- install Gatbsy at the root, and use it to generate docs from .MDX files (might need deployment on Github pages instead of Bitbucket)
-    
-
-How should React-based components be handled?
-
-Should they always be Plugins, or sometimes inside of themes?
-
-How does plugin and theme namespacing differ? How to keep it all in mind?
-
-
-#Conundrums
-
-
-
-PHP Style - Use DocBlocker
-https://marketplace.visualstudio.com/items?itemName=neilbrayfield.php-docblocker
-
-
-JS Style - JSDoc is built into VSCode but you may need another solution
-https://code.visualstudio.com/docs/nodejs/working-with-javascript
-
-
-WP Code styles
-https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/javascript/
-
-
-```PHP
 <?php
 
 // Object through line-by-line Assignment
