@@ -18,7 +18,7 @@ With the plugin installed **you now have access to new CLI functions** for build
 - **block** - generates a gutenberg block
 - **component** - generates a UI component
 - **endpoint** - generates an wp-json endpoint
-- **posttype** - generates a posttype definition
+- **[posttype](/commands/posttype/)** - generates a posttype definition
 - **[retrofit](/commands/retrofit/)** - generates constants in an existing theme
 - **[route](/commands/route/)** - generates content at an arbitrary url
 - **[taxonomy](/commands/taxonomy/)** - generates a taxonomy definition

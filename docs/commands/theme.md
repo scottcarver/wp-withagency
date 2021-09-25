@@ -30,7 +30,7 @@ After you fill in valid inputs, a theme will be generated.
 
 - **slug** - this will become the *folder name* of the theme Uses [is_slugworthy](/reference/class/#slug)
 - **name** - this will be *the name* of the theme when it appears in WordPress. Uses [is_nameworthy()](/reference/class/#name)
-- **prefix** - this is*used for namespacing* purposes and added to component names. Uses [is_prefixworthy()](/reference/class/#prefix)
+- **prefix** - this is *used for namespacing* purposes and added to component names. Uses [is_prefixworthy()](/reference/class/#prefix)
 - **domain** - the domain is used for *translation purposes* in the theme. Uses [is_domainworthy()](/reference/class/#domain)
 - **activate** - *whether to activate* the theme immediately after creation
 ***

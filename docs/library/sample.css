@@ -13,7 +13,10 @@ nav.tabs ul li{
 }
 
 nav.tabs  ul li.active a, nav.tabs  ul li a:hover, nav.tabs  ul li a:focus{
-  border-color:black;background:#e2d006;color:black;
+  border-color:black;
+ /* background:#e2d006; */
+  background:#ffc600;
+  color:black;
 }
 
 nav.tabs  ul li a{
