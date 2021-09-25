@@ -67,6 +67,7 @@ hr{
   padding-bottom:1.4em;
 }
 
+/*
 code{
   background: lawngreen;
   background: #eb4472;
@@ -74,6 +75,11 @@ code{
   color:black;
   padding: 2px 6px;
   white-space: nowrap;
+}
+*/
+
+hr{
+  margin:2em 0;
 }
 
 video{
@@ -95,7 +101,7 @@ article strong{
   text-shadow:1px 1px 2px black;
 }
 
-article ul{padding:20px;}
+article ul{padding:0 0 0 20px;}
 article li{
   margin-bottom:1.2em;
 }

@@ -26,6 +26,12 @@ function my_theme_register_required_plugins() {
 			'slug'      => 'debug-bar',
 			'required'  => true,
 		),
+		array(
+			'name'      => 'Editor Block outline',
+			'slug'      => 'editor-block-outline',
+			'required'  => true,
+		),
+		
 		// Rewrite Rules
 		array(
 			'name'      => 'Debug Bar Rewrite Rules',

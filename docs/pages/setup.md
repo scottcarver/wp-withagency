@@ -12,18 +12,20 @@ eleventyNavigation:
 ---
 
 1. First Install [WP CLI](https://wp-cli.org/#installing), which is which is required for this project.
-2. Download the latest version of the [WP Withagency](https://github.com/scottcarver/wp-withagency) plugin. 
+2. Download the latest version of the [WP With Agency](https://github.com/scottcarver/wp-withagency) plugin. 
 3. Activate the "WP Withagency" plugin in your WP installation.
 3. Confirm it's working by typing `wp withagency` while inside of your WP site on the command line.
 
 ---
 
-### ✨Quick Setup
+### ✨ Quick Setup
 
 **Cool Tip:** Once you have WP CLI installed you can do steps 2-4 on the command line with this one-liner to install, activate and test the plugin:
- <br /><div class="longcode">`wp plugin install https://github.com/scottcarver/wp-withagency/archive/refs/heads/master.zip --activate; wp with agency`</div>
+<pre><code class="language-bash">wp plugin install https://github.com/scottcarver/wp-withagency/archive/refs/heads/master.zip --activate;</code></pre>
 
 <br />
+
+
 
 ### Demonstration
 

@@ -46,7 +46,7 @@ If you know the values you want to use beforehand, you can pass the parameters i
 
 ***
 
-### 🪣 Help Command
+### 🆘 Help Command
 
 Type this into your terminal for detailed help:
 ```

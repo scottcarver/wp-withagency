@@ -19,9 +19,8 @@ Perhaps the *most important command*, **"theme" generates a new theme** that has
 
 
 Type this into your terminal to prompt for inputs:
-```
-wp withagency theme --prompt
-```
+
+<pre><code class="language-bash">wp withagency theme --prompt</code></pre>
 
 After you fill in valid inputs, a theme will be generated.
 
@@ -34,25 +33,26 @@ After you fill in valid inputs, a theme will be generated.
 - **prefix** - this is*used for namespacing* purposes and added to component names. Uses [is_prefixworthy()](/reference/class/#prefix)
 - **domain** - the domain is used for *translation purposes* in the theme. Uses [is_domainworthy()](/reference/class/#domain)
 - **activate** - *whether to activate* the theme immediately after creation
+***
+
+### 🆘 Help Command
+
+Type this into your terminal for detailed help:
+
+<pre><code class="language-bash">wp help withagency theme</code></pre>
 
 ***
 
 ### ⚙️ Advanced Usage
 If you know the values you want to use beforehand, you can pass the parameters into the command all at once and *Create a New Theme with a Single Line*:
-<br /><div class="longcode">`wp withagency theme --slux=acme --name="Acme Corp" --prefix=ax --domain=acme-theme --activate`</div>
 
+<pre><code class="language-bash">wp withagency theme --slux=acme --name="Acme Corp" --prefix=ax --domain=acme-theme --activate</code></pre>
+
+<!-- <br /><div class="longcode">`wp withagency theme --slux=acme --name="Acme Corp" --prefix=ax --domain=acme-theme --activate`</div> -->
+\
 **Typing this into the terminal would:**
 1. create a new folder "acme" 
 2. with a style.css referencing the name "Acme Corp"
 3. all the components would have names like "ax-header" 
 4. the translation domain would be "acme-theme" 
 5. and the theme would be instantly activated.
-
-***
-
-### 🪣 Help Command
-
-Type this into your terminal for detailed help:
-```
-wp help withagency theme
-```

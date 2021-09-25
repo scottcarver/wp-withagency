@@ -7,6 +7,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addPassthroughCopy('images');
   eleventyConfig.setTemplateFormats([
     "md",
+    "js",
     "njk",
     "css" // css is not yet a recognized template extension in Eleventy
   ]);

@@ -1,5 +1,10 @@
 <?php
 // Reset the Header (default htmls)
+
+// Get Params from URL
+$param1 = get_query_var('param1');
+$param2 = get_query_var('param2');
+
 header("Content-type: text/xml");
 $xmlstr = <<<XML
 <?xml version='1.0' standalone='yes'?>
