@@ -395,10 +395,14 @@ if (defined('WP_CLI') && WP_CLI)
             $domain = WP_CLI\Utils\get_flag_value($assoc_args, 'domain');
             // $filename = WP_CLI\Utils\get_flag_value($assoc_args, 'filename');
             $allUserArgs = isset($prefix) && isset($domain) && isset($name) && isset($slug); //  && isset($filename)
-
+            $constantsPath = get_template_directory().'/custom_constants.php';
             // Needs More Input
             if(!$allUserArgs){ self::nice_error_needinputs('theme'); }
-            
+            // The file exists already
+            if(file_exists($constantsPath)){
+                WP_CLI::warning('The file custom_constants.php already exists, the command was halted');
+                return false;
+            }
             // If Is Allowed
             // WithAgencyPluginWPCLI::is_allowed($prefix, $domain, $name, $slug)
             if($allUserArgs){  
@@ -433,8 +437,17 @@ if (defined('WP_CLI') && WP_CLI)
                 // Tail the functions File
                 WithAgencyPluginWPCLI::nice_tailfile('/functions.php', $fileadditions);
 
+                // Report Success
+                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created New Constants! %n'));
+                WP_CLI::line(WP_CLI::colorize('%g- a new file was created /custom_constants.php %n'));
+                WP_CLI::line(WP_CLI::colorize('%g- functions.php was updated to reference that file %n'));
+                WP_CLI::line(WP_CLI::colorize('%g- Configuring custom_constants.php for your unique theme architecture may be useful %n'));
+                // Show link to Docs
+                WP_CLI::line(self::nice_documentationurl().'retrofit');
             }
         }
+
+        
         
         
         /**
@@ -1080,7 +1093,12 @@ if (defined('WP_CLI') && WP_CLI)
         */
         private static function nice_rendertofile($data, $filepath){
             // Put Contents
-            file_put_contents($filepath, $data);
+            if(!file_exists($filepath)){
+                file_put_contents($filepath, $data);
+            } else {
+                WP_CLI::error('The theme already contains a file at' . $filepath);
+            }
+           
             // self::nice_renderhtml($renderVars);
             // return \WP_CLI\Utils\mustache_render( WP_PLUGIN_DIR . "/wp-withagency/templates/" . $data['template'], $data );
         }
