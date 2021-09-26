@@ -25,7 +25,7 @@ if (defined('WP_CLI') && WP_CLI)
     {
         
 
-         // A block and associated files
+         // A block and associated files, this makes use of the existing component fuction
         public function block($args)
         {
             $userSlug = cli\prompt('Block Name', 'event');
@@ -44,6 +44,9 @@ if (defined('WP_CLI') && WP_CLI)
          * 
          * [--name=<name>]
          * : This string of text is will display when managing your component. A good pattern for client Acme|Betamax is "Acme 20xx|Betmax Agency"
+         * 
+         * [--startwith=<slug>]
+         * : select an existing starter template
          * 
          * [--activate]
          * : This string of text will be used to create the directory in which your component is stored. It can only include lowercase text and dashes A good pattern for client Acme|Betamax is "acme|betamax"
@@ -66,32 +69,43 @@ if (defined('WP_CLI') && WP_CLI)
             // Slug
             $slug = WP_CLI\Utils\get_flag_value($assoc_args, 'slug');
             $name = WP_CLI\Utils\get_flag_value($assoc_args, 'name');
+            $startwith = WP_CLI\Utils\get_flag_value($assoc_args, 'startwith');
             $activate = WP_CLI\Utils\get_flag_value($assoc_args, 'activate', false);
             $starters = array(
                 'generic' => 'Generic',
                 // 'layout' => 'Layout Area',
-                'primarynav' => 'Primary Nav',
+                // 'primarynav' => 'Primary Nav',
                 // 'footernav' => 'Footer Nav',
                 // 'csscarousel' => 'CSS Carousel',
                 // 'jscarousel' => 'JS Carousel',
             );
             $allUserArgs = isset($slug) && isset($name);
             $isAllowed = false;
-            $selected = false;
+            $startwithInArray = array_key_exists($startwith, $starters);
+
+            // Unknown starter template error
+            if(isset($startwith) && !$startwithInArray){
+                WP_CLI::warning('That starter template does not exist, you will be prompted to select a valid starter.');
+            }
+            
+            // Assign $selected to a statrter template if it exists
+            $selected = (isset($startwith) && $startwithInArray) ? $startwith : false;
 
             // Nice Error: Missing Inputs
             if(!$allUserArgs){ 
                 self::nice_error_needinputs('component');
             } else {
-                WP_CLI::line("\r\n" . "Select a Starter Component:" );
-                $size = sizeof($starters);
-                $phrase = 'Enter a number 1-'.$size.', to proceed';
-                $selected = cli\menu($starters, null, $phrase);
-             //   WP_CLI::line("starter was" . $selected);
-                // Determine whether Inputs are Good
+                if(!$selected){
+                    
+                    WP_CLI::line("\r\n" . "Select a Starter Component:" );
+                    $size = sizeof($starters);
+                    $phrase = 'Enter a number 1-'.$size.', to proceed';
+                    $selected = cli\menu($starters, null, $phrase);
+                //   WP_CLI::line("starter was" . $selected);
+                    // Determine whether Inputs are Good
+                }
                 $isAllowed = WithAgencyPluginWPCLI::is_slugworthy($slug) && WithAgencyPluginWPCLI::is_nameworthy($name) && $selected;
             }
-            
 
             // If Is Allowed
             if($isAllowed && WithAgencyPluginWPCLI::is_constantable()){  
@@ -111,14 +125,12 @@ if (defined('WP_CLI') && WP_CLI)
                     'slug' => $slug,
                 );
 
-
                 // 3) Get component List
                 $componentPath = 'templates/component/xx-'.$selected.'/xx-'.$selected.'-template.php';
                 require_once($componentPath);
                 
-                
-                 // Files are structured like: xx-slug/xx-slug
-                 $componentUpdatePaths = (object)[
+                // Files are structured like: xx-slug/xx-slug
+                $componentUpdatePaths = (object)[
                     'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
                     'gulpjsAddition' => 'library/component/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
                     'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
@@ -158,9 +170,6 @@ if (defined('WP_CLI') && WP_CLI)
 
 
                 // 6) Update Files
-
-               
-                // Iterate over updated file list
                 foreach($componentTemplateEntries->updatedfiles as $entry){
                     
                     if(file_exists(get_template_directory().$entry['target'])){
@@ -169,23 +178,19 @@ if (defined('WP_CLI') && WP_CLI)
                     } else {
                         WP_CLI::line('❌ The file '.$entry['target'].' does not exist and was not updated');
                     }
-                   //  WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
                 }
 
-
                 // 6) Activate immediately by Updating Files
+                /*
                 if($activate){
                     // WP_CLI::success($slug . ' Component Activated!');
-
                     // 1) Tail PHP
-
                     // 2) Tail JS
-
                     // 3) Tail CSS
-
                 } else {
                     WP_CLI::warning('Component is not activated, however');
                 }
+                */
                
             } else {
                 WP_CLI::line('❌ The needed CONSTANTS, typically defined in custom_constants.php do not exist and the operation halted. The "retrofit" command may help you get past this.');
