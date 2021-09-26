@@ -22,11 +22,11 @@ function componentTemplateFunction($slug, $activate){
     $updatedfiles = array(
         array(
             'target' => '/gulpfile.js/javascript_combined.json', 
-            'additions' => "\r\n // ".$componentString ."js", // Commented out initially
+            'additions' => "library/component/".$componentString .".js", // Commented out initially
         ),
         array(
-            'target' => '/library/style/custom/custom_style.scss',
-            'additions' => "/* Component Name */\r\n@import \"/" .$cssPathPrefix.$componentString.".scss\";", // Doublequotes allow special vals
+            'target' => '/library/style/custom/_custom_style.scss',
+            'additions' => "/* Component Name */\r\n@import \"" .$cssPathPrefix.$componentString.".scss\";", // Doublequotes allow special vals
         )
     );
 

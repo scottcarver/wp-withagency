@@ -56,3 +56,8 @@ If you know the values you want to use beforehand, you can pass the parameters i
 3. all the components would have names like "ax-header" 
 4. the translation domain would be "acme-theme" 
 5. and the theme would be instantly activated.
+
+
+### 📈 Improvements
+
+1. The gulpfile needs minor configuration as the components are currently copied, not combined. This is ok for block CSS, but the entire component css/js is not very big.

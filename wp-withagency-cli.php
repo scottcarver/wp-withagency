@@ -115,18 +115,30 @@ if (defined('WP_CLI') && WP_CLI)
                 // 3) Get component List
                 $componentPath = 'templates/component/xx-'.$selected.'/xx-'.$selected.'-template.php';
                 require_once($componentPath);
-                $componentTemplateEntries = componentTemplateFunction($slug, $activate);
-
-
+                
+                
+                 // Files are structured like: xx-slug/xx-slug
+                 $componentUpdatePaths = (object)[
+                    'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
+                    'gulpjsAddition' => 'library/component/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
+                    'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
+                    'gulpjsPath' => '/gulpfile.js/javascript_combined.json',
+                    'cssPathPrefix' => '../../component/',
+                    'scssWritePath' => '/library/style/custom/_custom_components.scss',
+                 ];
+               
+                $componentTemplateEntries = componentTemplateFunction($slug, $activate, $componentUpdatePaths);
 
                 // 4) Create directory - first check for the directory
+
+                // Components Dest Folder
+                if(!is_dir($dest)){mkdir($dest);}
+                // Component Directory
                 if (is_dir($componentDir)) { WP_CLI::error('folder was created previously, component creation process failed'); }
                 // Make Directory if it doesn't exist
                 mkdir($componentDir);
                 //Report Success
                 WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new component "'.$slug.'" using the "'.$selected.'" template%n'));
-
-
 
                 // 5) Generate Files
                 foreach($componentTemplateEntries->newfiles as $entry){
@@ -146,16 +158,24 @@ if (defined('WP_CLI') && WP_CLI)
 
 
                 // 6) Update Files
+
+               
+                // Iterate over updated file list
                 foreach($componentTemplateEntries->updatedfiles as $entry){
-                    WithAgencyPluginWPCLI::nice_tailfile($entry['target'], $entry['additions']);
-                    WP_CLI::line(WP_CLI::colorize('%g- an existing file at ' . $entry['target'].' was updated %n'));
+                    
+                    if(file_exists(get_template_directory().$entry['target'])){
+                        WithAgencyPluginWPCLI::nice_tailfile($entry['target'], $entry['additions']);
+                        WP_CLI::line(WP_CLI::colorize('%g- an existing file at ' . $entry['target'].' was updated %n'));
+                    } else {
+                        WP_CLI::line('❌ The file '.$entry['target'].' does not exist and was not updated');
+                    }
                    //  WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
                 }
 
 
                 // 6) Activate immediately by Updating Files
                 if($activate){
-                    WP_CLI::success($slug . ' Component Activated!');
+                    // WP_CLI::success($slug . ' Component Activated!');
 
                     // 1) Tail PHP
 
@@ -167,6 +187,9 @@ if (defined('WP_CLI') && WP_CLI)
                     WP_CLI::warning('Component is not activated, however');
                 }
                
+            } else {
+                WP_CLI::line('❌ The needed CONSTANTS, typically defined in custom_constants.php do not exist and the operation halted. The "retrofit" command may help you get past this.');
+                WP_CLI::line(self::nice_documentationurl().'retrofit');
             }
         }
 
