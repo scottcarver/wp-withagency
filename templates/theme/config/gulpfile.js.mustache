@@ -138,7 +138,7 @@ function copyBlocksJS() {
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.componentjs.dest))
+    .pipe(gulp.dest(paths.blocksjs.dest))
     .pipe(browserSync.stream());
 }
 
@@ -219,8 +219,8 @@ function watchEverything() {
   // Copy !
   gulp.watch(paths.blocks.src, copyBlocksCSS);
   // Copied 
-  gulp.watch(paths.blocks.src, copyBlocksJS);
-  gulp.watch(paths.blocks.src, copyComponentCSS);
+  // gulp.watch(paths.blocks.src, copyBlocksJS);
+  // gulp.watch(paths.blocks.src, copyComponentCSS);
   gulp.watch(paths.componentjs.src, copyComponentJS);
   gulp.watch(paths.images.src, copyImages);
   gulp.watch(paths.fonts.src, copyFonts);
@@ -248,8 +248,8 @@ var allTasks = [
   combineScripts,
   copyBlocksCSS, 
   copyBlocksJS, 
-  copyComponentJS, 
-  copyComponentCSS, 
+ // copyComponentJS, 
+ // copyComponentCSS, 
   copyImages, 
   copyFonts
 ];

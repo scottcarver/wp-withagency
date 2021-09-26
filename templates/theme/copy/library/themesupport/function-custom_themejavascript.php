@@ -22,11 +22,9 @@ function shared_javascripts(){
   // GeoJSON
   // wp_enqueue_script('geojson', get_template_directory_uri().'/library/scripts/vendor/geojson.min.js', array('jquery'),'', true );
 
-  // Changes Versions when the file is saved to clear cache
-  if(file_exists($jspath)){
-    $jsver = filemtime($jspath);
-    wp_enqueue_script('applicationjs', $jspath, array('jquery'),$jsver, true );
-	}
+  // Main CSS (components combined)
+  wp_enqueue_script('main', get_template_directory_uri().$jspath, array('jquery'), '', true );
+
 
   if(is_singular('retailer')){
     $retailerID = get_field('dynamic_retailerapi');

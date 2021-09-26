@@ -11,7 +11,7 @@ eleventyNavigation:
   order: 6
 ---
 
-You can quickly **generate a new block** using this command. A CSS, JS, PHP and Block Definition file will each be generated and "wired up" - you will be prompted to select a Starter Block. Under the hood this utilizes the <code class="language-bash">component</code> command, but makes use of a different set of starter templates. Note that the CSS and JS is not compiled into a unified source... each block's assets are compiled into dist/blocks and those locations match the paths defined in enqueue_assets inside the block defintion and only added when used.
+You can quickly **generate a new block** using this command. A CSS, JS, PHP and Block Definition file will each be generated and "wired up" - you will be prompted to select a Starter Block. Under the hood this utilizes the <code class="language-bash">component</code> command, but makes use of a different set of starter templates. Note that the CSS and JS is not compiled into a unified source... each block's assets are compiled into <code class="language-bash">dist/blocks</code> and those locations match the paths defined in enqueue_assets inside the block defintion and only added when used.
 
 The current starters are:
 

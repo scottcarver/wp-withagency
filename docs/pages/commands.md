@@ -12,7 +12,7 @@ eleventyNavigation:
 ---
 
 
-With the plugin installed **you now have access to new CLI functions** for building WordPress themes. With your command prompt you can navigate to the the affected site and run the command `wp withagency` to show a list of available commands. You can also run `wp help withagency` to view the built-in help documentation. View documenaton for the individual commands to understand the parameters/flags needed for each.
+With the plugin installed **you now have access to new CLI functions** for building WordPress themes. With your command prompt you can navigate to the the affected site and run the command <code class="language-bash">wp withagency</code> to show a list of available commands. You can also run <code class="language-bash">wp help withagency</code> to view the built-in help documentation. View documentation for the individual commands to understand the parameters/flags needed for each.
 
 
 - **[block](/commands/block/)** - generates an ACF-based gutenberg block
