@@ -3,28 +3,21 @@
 
 <head>
     <?php /* Meta Tags
-    <?php include(locate_template('library/components/{{prefix}}-metadata/{{prefix}}-metadata.php')); ?>
+    <?php include(locate_template('library/component/{{prefix}}-metadata/{{prefix}}-metadata.php')); ?>
      */ ?>    
     <?php /* Header Output Hook */ ?> 
     <?php wp_head(); ?>
-    
-    <?php /* GTM: has script 
-    <?php include(locate_template('library/scripts/vendor/gtm-withscript.php')); ?>
-    */ ?>
+
 </head>
 
 <?php /* Opening Body Tag */ ?>
 <body <?php custom_bodyclass(); ?>>
 
-    <?php /* GTM: noscript
-    <?php include(locate_template('library/scripts/vendor/gtm-noscript.php')); ?>
-     */ ?>
-
 <?php /* Exclude Header on Landing Pages */ ?>
 <?php if(false){ ?>
 
     <?php /* Primary Nav */ ?>
-    <?php include('library/components/{{prefix}}-primarynav/{{prefix}}-primarynav.php'); ?>
+    <?php include('library/component/{{prefix}}-primarynav/{{prefix}}-primarynav.php'); ?>
 
  <?php } ?>
 

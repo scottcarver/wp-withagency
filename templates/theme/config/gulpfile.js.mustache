@@ -29,7 +29,7 @@ var paths = {
   },
   // Process SCSS in /style/ dir, but not the primarycss
   styles: {
-    src: ['library/style/**/*.scss', '!library/style/style.scss'],
+    src: ['library/**/*.scss', '!library/style/style.scss'],
     dest: 'dist/global/'
   },
   // Copy Each Block SCSS individually, ignore if starts with _
@@ -262,7 +262,7 @@ var buildSeries = gulp.series(clean, gulp.parallel(allTasks));
 /**
  * Create a series which also cleans/builds/watches/synch
  */
-var watchSeries = gulp.series(clean, buildSeries, runBrowserSync, watchEverything);
+var watchSeries = gulp.series(clean, gulp.parallel(buildSeries, runBrowserSync, watchEverything));
 
 /**
  * Exports clean/build/watch commands

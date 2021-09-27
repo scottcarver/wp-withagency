@@ -45,25 +45,18 @@ function add_primary_style(){
 // Fonts need to be loaded on the Frontend and Backend
 function add_fonts(){
 	// Calibri Font
-	wp_enqueue_style('calibrifont', 'https://use.typekit.net/xzh8rvc.css', false ,'1.0', 'all' );
+	// wp_enqueue_style('calibrifont', 'https://use.typekit.net/xzh8rvc.css', false ,'1.0', 'all' );
 	// Nexa Font
-	wp_enqueue_style('nexafont', get_template_directory_uri() . '/library/fonts/nexa/MyFontsWebfontsKit.css', false ,'1.0', 'all' );
+	// wp_enqueue_style('nexafont', get_template_directory_uri() . '/library/fonts/nexa/MyFontsWebfontsKit.css', false ,'1.0', 'all' );
 }
 
 
 // Fonts need to be loaded on the Frontend and Backend
 function add_secondary_style(){
 	// Filepath
-	$filename = '/dist/global/main.min.css';
+	$filename = '/dist/global/style/main.min.css';
 	$filepath = get_template_directory().$filename;
-	$fileexists = file_exists($filepath);
-	// Add style if it exists
-	if($fileexists){ // && is_admin()
-		// Secondary Style
-		$timestamp = filemtime( $filepath );
-		// Enqueue
-		wp_enqueue_style('secondarystyle', get_template_directory_uri().$filename, false ,$timestamp, 'all' );
-	}
+	wp_enqueue_style('secondarystyle', get_template_directory_uri().$filename, false , '', 'all' );
 }
 
 
