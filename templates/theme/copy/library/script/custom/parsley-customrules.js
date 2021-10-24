@@ -32,31 +32,6 @@ window.Parsley
     en: 'Your password can only contain letters, numbers, and any of these special characters (!@#$%^&*())',
   }
 })
-// password '3 of 4' validation
-.addValidator('password', {
-  validateString: function(value, requirement) {      
-    var matches = 0;
-    
-    // special character
-    if(value.match(/[!@#$%^&*()]/)) { matches++; }
-    
-    // lowercase
-    if(value.match(/[a-z]/)) { matches++; }
-
-    // uppercase
-    if(value.match(/[A-Z]/)) { matches++; }
-    
-    // number
-    if(value.match(/[0-9]/)) { matches++; }
-    
-    if(matches < 3) {
-      return false;
-    }
-  },
-  messages: {
-    en: 'Your password must contain at least 3 of the following:<br>at least 1 special character (!@#$%^&*())<br>at least 1 number<br>at least 1 uppercase letter<br>at least 1 lowercase letter'
-  }
-})
 // Max File Size
 .addValidator('maxFileSize', {
   requirementType: 'integer',
@@ -68,18 +43,18 @@ window.Parsley
     en: 'This file should not be larger than %s Kb'
   }
 })
-// Email is Unset (based on this example here https://parsleyjs.org/doc/examples/ajax.html)
+// Email is Unavailable (based on this example here https://parsleyjs.org/doc/examples/ajax.html)
 .addValidator('emailisunset', {
   requirementType: 'string',
   validateString: function(email) {
-    var feedback = 'Looks like you already have an account, go <a href="'+olsite.baseurl+'/my-agency/login/">here</a> to login.';
+    var feedback = 'Looks like you already have an account, go <a href="'+yoursite.baseurl+'/my-agency/login/">here</a> to login.';
     var xhr = $.ajax({
-      url: olUserLib.getOLAPIBase() + "Account/EmailAvailable",
+      url: externalsite.baseurl + "Account/IsEmailAvailable",
       type: "POST",
       async: true,
       dataType: "json",
       contentType: "application/json; charset=utf-8",
-      data: JSON.stringify({"email":email, "applicationType":"Mobile"}),
+      data: JSON.stringify({"email":email}),
     });
     // Return a Promise. It will return true, unless rejected, then false
     return xhr.then(function(response) {
@@ -90,31 +65,24 @@ window.Parsley
   // (404 because zip does not exist, network error, etc.)
   messages: {en: 'Email is not available'}
 })
-// birthdate limit - must be 18
-.addValidator('maxbirthdate', {
+// birthdate limit - must be 13
+.addValidator('checkbirthdate', {
   requirementType: 'integer',
   validateString: function(_value, maxSize, parsleyInstance) { 
-    var d = new Date();
-    var maxYear = d.getFullYear() - 18;   
-    var yearInput = $('#akYear').val();
-    var monthInput = $('#akMonth').val();
-    var dayInput = $('#akDay').val();
-
-    // TODO: feels verbose, reduce this?
-    // if year entered is exactly 18 years ago the month/date must be today or earlier
+    var date = new Date();
+    var maxYear = date.getFullYear() - 13;   
+    var yearInput = $('#year').val();
+    var monthInput = $('#month').val();
+    var dayInput = $('#day').val();
+    // When Year Matches
     if(maxYear == yearInput) {
-      var monthNow = d.getMonth() + 1;
-      var dayNow = d.getDate();
-      
-      if(monthInput > monthNow){
-        return false;
-      } 
-      
-      if((monthInput == monthNow) && (dayInput > dayNow)) {
-        return false;
-      }       
+      var monthNow = date.getMonth() + 1;
+      var dayNow = date.getDate();
+      // Compare Months
+      if(monthInput > monthNow){  return false; } 
+      // When Month Matches, Compare Days
+      if((monthInput == monthNow) && (dayInput > dayNow)) { return false; }       
     }
-
   },
   messages: {
     en: 'Birthdate must be 18 years before today'
