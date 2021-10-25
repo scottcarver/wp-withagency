@@ -19,7 +19,7 @@
 require_once('library/function/custom/custom_blocks.php');
 
 /********* COMPONENTS ************/
-require_once('library/function/custom/custom_components.php'); // Mustache it?
+require_once('library/function/custom/custom_components.php');
 
 /********* CONSTANTS ************/
 require_once('library/function/custom/custom_constants.php');

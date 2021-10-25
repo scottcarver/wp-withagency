@@ -1,4 +1,5 @@
 <?php
+// Modify the Body Class
 function custom_bodyclass(){
 
     // Custom Vars

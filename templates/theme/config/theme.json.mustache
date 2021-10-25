@@ -1,59 +1,55 @@
 {
-  "version": 1,
-  "settings": {
-      "color": {
-          "custom": true,
-          "customDuotone": true,
-          "customGradient": true,
-          "duotone": [],
-          "gradients": [
-              {
-              "slug": "blush-bordeaux",
-              "gradient": "linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%)"
-              },
-              {
-              "slug": "blush-light-purple",
-              "gradient": "linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%)"
-              }
-          ],
-          "link": false,
-          "palette": [
-              {
-              "slug": "strong-magenta",
-              "color": "#a156b4"
-              },
-              {
-              "slug": "very-dark-grey",
-              "color": "rgb(131, 12, 8)"
-              }
-          ]
-      },
-      "custom": {},
-      "layout": {
-          "contentSize": "800px",
-          "wideSize": "1000px"
-      },
-      "spacing": {
-          "customMargin": false,
-          "customPadding": false,
-          "units": [ "px", "em", "rem", "vh", "vw" ]
-      },
-      "typography": {
-          "customFontSize": true,
-          "customLineHeight": false,
-          "dropCap": true,
-          "fontSizes": []
-      },
-      "blocks": {
-          "core/paragraph": {
-              "color": {},
-              "custom": {},
-              "layout": {},
-              "spacing": {},
-              "typography": {}
-          },
-          "core/heading": {},
-          "etc": {}
-      }
-  }
+    "version": 1,
+    "settings": {
+        "color": {
+            "custom": false,
+            "customDuotone": false,
+            "customGradient": false,
+            "link": false,
+            "duotone": [],
+            "gradients": [],
+            "palette": []
+        },
+        "custom": {},
+        "layout": {
+            "contentSize": "800px",
+            "wideSize": "1000px"
+        },
+        "spacing": {
+            "customMargin": false,
+            "customPadding": false,
+            "units": [ "px", "em", "rem", "vh", "vw" ]
+        },
+        "typography": {
+            "customFontSize": false,
+            "customLineHeight": false,
+            "dropCap": true,
+            "fontSizes": []
+        },
+        "blocks": {
+            "core/paragraph": {
+                "color": {},
+                "custom": {},
+                "layout": {},
+                "spacing": {
+                    "customMargin": true,
+                    "customPadding": true
+                },
+                "typography": {},
+                "border": {}
+            },
+            "core/heading": {},
+            "etc": {}
+        }
+    },
+    "styles": {
+        "blocks": {
+	        "core/heading": {
+			    "color": {
+				    "text": "var(--wp--preset--color--cyan-bluish-gray)"
+			    },
+                "alignment": []
+		    }
+        }
+	}
 }

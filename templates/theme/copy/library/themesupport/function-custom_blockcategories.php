@@ -1,7 +1,6 @@
 <?php
-// my-plugin.php
- 
-function my_plugin_block_categories( $categories, $post ) {
+// Add Custom Block Categories
+function custom_blockcategories( $categories, $post ) {
     if ( $post->post_type !== 'post' ) {
         return $categories;
     }
@@ -16,5 +15,4 @@ function my_plugin_block_categories( $categories, $post ) {
         )
     );
 }
-add_filter( 'block_categories', 'my_plugin_block_categories', 10, 2 );
-
+add_filter( 'block_categories', 'custom_blockcategories', 10, 2 );

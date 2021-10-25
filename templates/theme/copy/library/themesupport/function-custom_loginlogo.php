@@ -1,37 +1,25 @@
 <?php
-/* From https://www.billerickson.net/custom-logo-on-the-wordpress-login/ */
+// Customize The Login Logo, and styles as needed
+function custom_loginlogo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/library/image/logo/logo-login.png);
+            height:140px;
+            width:140px;
+            background-size: 140px 140px;
+            background-repeat: no-repeat;
+        }
+        html body{
+            background:linear-gradient(#fff, #ccc);
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'custom_loginlogo' );
+
 
 /* Make URL point to homepage, not Wordpress.org */
-function custom_header_url( $url ) {
+function custom_loginurl( $url ) {
     return esc_url( home_url() );
 }
-add_filter( 'login_headerurl', 'custom_header_url' );
+add_filter( 'login_headerurl', 'custom_loginurl' );
 add_filter( 'login_headertext', '__return_empty_string' );
-
-
-/* Modify Login Logo to reflect client */
-function custom_login_logo() {
-
-	$logo_path = '/library/img/logo/logo-agency-color.svg';
-    
-    if( ! file_exists( get_stylesheet_directory() . $logo_path ) )
-		return;
-
-	$logo = get_stylesheet_directory_uri() . $logo_path;
-    ?>
-    <style type="text/css">
-    .login h1 a {
-        background-image: url(<?php echo $logo;?>);
-        background-size: contain;
-        background-repeat: no-repeat;
-		background-position: center center;
-        display: block;
-        overflow: hidden;
-        text-indent: -9999em;
-        width: 220px;
-        height: 70px;
-    }
-    </style>
-    <?php
-}
-add_action( 'login_head', 'custom_login_logo' );
