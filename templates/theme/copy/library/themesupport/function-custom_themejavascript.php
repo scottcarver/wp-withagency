@@ -3,15 +3,15 @@
 // Scripts that appear on both Frontend & Backend
 function custom_themejavascript_shared(){
   // JS path
-  $jspath = get_template_directory().'/application.js';
+  $jspath = get_template_directory_uri().'/dist/global/';
    // Parsley
-  wp_enqueue_script('parsley', get_template_directory_uri().'/library/script/vendor/parsley.js', array('jquery'),'', true );
+  wp_enqueue_script('parsley', $jspath.'parsley.js', array('jquery'),'', true );
   
   // Cookies on every page
-  wp_enqueue_script( 'js-cookie', get_template_directory_uri() . '/library/script/vendor/js.cookie.min.js', array('jquery'), '', true );
+  wp_enqueue_script( 'js-cookie', $jspath.'js.cookie.min.js', array('jquery'), '', true );
 
   // Main CSS (components combined)
-  wp_enqueue_script('main', get_template_directory_uri().$jspath, array('jquery'), '', true );
+  wp_enqueue_script('main', $jspath.'main.min.js', array('jquery'), '', true );
 
   // Localized Variables
    wp_localize_script(
