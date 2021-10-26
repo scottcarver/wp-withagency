@@ -41,8 +41,8 @@ function add_primary_style(){
 function add_fonts(){
 	// Calibri Font
 	wp_enqueue_style('calibrifont', 'https://use.typekit.net/xzh8rvc.css', false ,'1.0', 'all' );
-	// Nexa Font
-	wp_enqueue_style('nexafont', get_template_directory_uri() . '/library/fonts/nexa/MyFontsWebfontsKit.css', false ,'1.0', 'all' );
+	// Nexa Font (example)
+	// wp_enqueue_style('nexafont', get_template_directory_uri() . '/library/fonts/nexa/MyFontsWebfontsKit.css', false ,'1.0', 'all' );
 }
 
 // Fonts need to be loaded on the Frontend and Backend

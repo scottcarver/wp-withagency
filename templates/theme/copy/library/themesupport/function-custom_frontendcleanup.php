@@ -28,10 +28,6 @@ function custom_frontendcleanup_removeassets() {
 	/******* Remove Scripts ******/
 	// Remove Embed
 	wp_deregister_script( 'wp-embed' );
-	// Revamp jQuery on frontend
-	wp_deregister_script('jquery');
-	wp_enqueue_script('jquery', get_template_directory_uri().'/dist/global/jquery-3.5.1.slim.min.js', array(), null, true);
-
 
 }
 

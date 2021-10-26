@@ -1,6 +1,12 @@
 [
-	"library/script/vendor/jquery-3.5.1.slim.min.js",
-    "library/script/vendor/axios-0.19.2.min.js",
+	"library/script/vendor/jquery-3.6.0.slim.min.js",
+    "library/script/vendor/jquery-3.6.0.slim.min.map",
+    "library/script/vendor/jquery-3.6.0.min.js",
+    "library/script/vendor/jquery-3.6.0.min.map",
+    "library/script/vendor/axios.024.0.min.js",
+    "library/script/vendor/axios.min.map",
     "library/script/vendor/js.cookie.min.js",
-    "library/script/vendor/parsley.js"
+    "library/script/vendor/js.cookie.min.js.map",
+    "library/script/vendor/parsley.2.9.2.min.js",
+    "library/script/vendor/parsley.min.js.map"
 ]

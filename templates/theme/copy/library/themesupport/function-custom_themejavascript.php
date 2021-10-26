@@ -5,13 +5,18 @@ function custom_themejavascript_shared(){
   // JS path
   $jspath = get_template_directory_uri().'/dist/global/';
    // Parsley
-  wp_enqueue_script('parsley', $jspath.'parsley.js', array('jquery'),'', true );
+  wp_enqueue_script('parsley', $jspath.'parsley.2.9.2.min.js', array('jquery'),'', true );
   
   // Cookies on every page
   wp_enqueue_script( 'js-cookie', $jspath.'js.cookie.min.js', array('jquery'), '', true );
 
   // Main CSS (components combined)
   wp_enqueue_script('main', $jspath.'main.min.js', array('jquery'), '', true );
+
+  	// Revamp jQuery on frontend
+	wp_deregister_script('jquery');
+	wp_enqueue_script('jquery', get_template_directory_uri().'/dist/global/jquery-3.6.0.min.js', array(), null, true);
+
 
   // Localized Variables
    wp_localize_script(
