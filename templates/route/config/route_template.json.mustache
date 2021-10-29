@@ -1,0 +1,34 @@
+<?php
+// Reset the Header (default htmls)
+
+// Get Params from URL
+$param1 = get_query_var('param1');
+$param2 = get_query_var('param2');
+
+header("Content-type: text/json");
+$markupstring = <<<MARKUP
+{
+    "glossary": {
+        "title": "example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "{$param1}",
+					"SortAs": "{$param2}",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
+MARKUP;
+echo($markupstring);
+?>

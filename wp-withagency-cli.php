@@ -319,6 +319,13 @@ if (defined('WP_CLI') && WP_CLI)
             }
         }
 
+
+     
+
+          
+
+
+
         /**
          * Generates files to create a Route within the active theme
          *
@@ -330,6 +337,9 @@ if (defined('WP_CLI') && WP_CLI)
          * [--slug=<slug>]
          * : What to put in the 'Plugin Name:' header.
          * 
+         * [--format=<slug>]
+         * : Choose a language from the options "xml|json|html"
+         * 
          * ## EXAMPLES
          *
          *     $ wp withagency route --routename=badoop
@@ -340,10 +350,46 @@ if (defined('WP_CLI') && WP_CLI)
         public function route($args, $assoc_args){
             // Routename from Prompt
             $routename = WP_CLI\Utils\get_flag_value($assoc_args, 'slug');
-            $allUserArgs = isset($routename);
-            
-            // Needs More Input
+            $format = WP_CLI\Utils\get_flag_value($assoc_args, 'format');
+            // Slug and Format Are required
+            $allUserArgs = isset($routename); //  && WithAgencyPluginWPCLI::is_slugworthy($format)
+            // Valid inputs are required
             if(!$allUserArgs){ self::nice_error_needinputs('route'); }
+
+            // Validate Format Type
+            $formatList = array(
+                'xml' => 'XML',
+                'json' => 'JSON',
+                'php' => 'PHP',
+            );
+
+            $formatInArray = isset($format) && array_key_exists($format, $formatList);
+          //   $format = cli\menu($formatList, null, $format);
+
+            /*
+        
+         * 
+         * */
+
+         /*
+         if(!isset($format)){
+            $phrase = 'Enter a number 1-'.$size.', to proceed';
+            $selected = cli\menu($starters, null, $phrase);
+         }
+         */
+
+
+            // // In Array
+            // if(isset($format)){
+            //     $formatInArray = array_key_exists($format, $formatList);
+            // }
+            
+
+            // If not in array template error
+            if(!$formatInArray){
+                // WP_CLI::error('That starter template does not exist, you will be prompted to select a valid starter.');
+                $format = cli\menu($formatList, null, $format);
+            }
 
             // All User Args were present and Constants are Able
             if ($allUserArgs && WithAgencyPluginWPCLI::is_constantable()){
@@ -352,14 +398,14 @@ if (defined('WP_CLI') && WP_CLI)
                     // Route File
                     'routefile' => array(
                         'routename' => $routename,
-                        'template'=>'route/config/route.php.mustache',
+                        'template'=>'route/config/route.'.$format.'.mustache',
                         'output'=> get_template_directory() . DEST_ROUTE_FOLDER . 'route_'.$routename.'.php',
                         'namespace'=>THEME_DOMAIN
                     ),
                     // Route File Template
                     'templatefile' => array(
                         'routename' => $routename,
-                        'template'=>'route/config/route_template.php.mustache',
+                        'template'=>'route/config/route_template.'.$format.'.mustache',
                         'output'=> get_template_directory() . DEST_ROUTE_FOLDER . 'route_'.$routename.'_template.php',
                         'namespace'=>THEME_DOMAIN
                     ),
@@ -1052,6 +1098,19 @@ if (defined('WP_CLI') && WP_CLI)
             $matchAchieved = preg_match($onlyLowerCaseText, $mixedText);
             return $matchAchieved;
         }
+
+         /** 
+         * String contains polyfill
+         * 
+         * Examines a for a match. Note that str_contains is introduced PHP 8.
+         * 
+         * @param $haystack {string}
+         * @param $needle {string}
+         * @return boolean whether match detected
+         */
+        private function custom_str_contains($haystack, $needle){
+            return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+        }
         
        
         /* NOTE: Currently this tails the style file, but in reality it should be a case/switch to the subbranches noted in functions.php */
@@ -1161,7 +1220,7 @@ if (defined('WP_CLI') && WP_CLI)
                    
                     // Write the contents back to the file
                     // Add to JSON
-                    if(str_contains($filepath,'.json')){
+                    if(WithAgencyPluginWPCLI::custom_str_contains($filepath,'.json')){
                         // Open JSON
                         $contents = file_get_contents(get_template_directory().$filepath);
                         $data = json_decode($contents);
@@ -1188,4 +1247,3 @@ if (defined('WP_CLI') && WP_CLI)
 
     WP_CLI::add_command('withagency', 'WithAgencyPluginWPCLI');
 }
-

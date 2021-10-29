@@ -1,24 +1,12 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="{{prefix}}-site<?php if(false){ echo(' {{prefix}}-site--nonav'); }?>">
+<html <?php language_attributes(); ?> class="{{prefix}}-site">
 
 <head>
-    <?php /* Meta Tags
-    <?php include(locate_template('library/component/{{prefix}}-metadata/{{prefix}}-metadata.php')); ?>
-     */ ?>    
     <?php /* Header Output Hook */ ?> 
     <?php wp_head(); ?>
-
 </head>
 
 <?php /* Opening Body Tag */ ?>
 <body <?php custom_bodyclass(); ?>>
-
-<?php /* Exclude Header on Landing Pages */ ?>
-<?php if(false){ ?>
-
-    <?php /* Primary Nav */ ?>
-    <?php include('library/component/{{prefix}}-primarynav/{{prefix}}-primarynav.php'); ?>
-
- <?php } ?>
 
  <h1>{{name}} Theme!</h1>
