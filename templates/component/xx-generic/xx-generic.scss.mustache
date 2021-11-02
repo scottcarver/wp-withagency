@@ -1,10 +1,12 @@
 .{{prefix}}-{{slug}}{
-	background:red;
-	padding:10px;
+	// Modifier: Loaded
+	&.{{prefix}}-{{slug}}--loaded{
+		.{{prefix}}-{{slug}}__content{background:green;}
+	}
 }
 
 .{{prefix}}-{{slug}}__content{
-	background:blue;
+	background:red;
 	padding:10px;
 	nav{ background:pink; }
 }

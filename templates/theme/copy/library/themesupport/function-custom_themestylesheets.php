@@ -22,7 +22,7 @@ function custom_themestylesheets_admin() {
 	// Include the primary style
 	// add_primary_style();
 	// Secondary Style
-	// add_secondary_style();
+	add_secondary_style();
 	// Add Fonts
 	add_fonts();
 } 

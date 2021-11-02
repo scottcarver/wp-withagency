@@ -1,0 +1,22 @@
+(function ($) {
+
+	var initializeBlock = function ($block) {
+		// Debug Mode
+		var debugMode = true;
+		// Fix frontend/backend inconsistcy (editor includes wrapper div)
+        if(!$block.hasClass('{{prefix}}-{{slug}}')){ $block = $block.find('.{{prefix}}-{{slug}}');}
+	  	// Add Loaded Class
+		$('.{{prefix}}-{{slug}}').addClass('{{prefix}}-{{slug}}--loaded');
+	} // End Init Function
+  
+	// Window Initialized (Frontend)
+	$(document).ready(function () {
+	  $('.{{prefix}}-{{slug}}').each(function () { initializeBlock($(this)); });
+	});
+  
+	// ACF Initialized (Admin)
+	if (window.acf) {
+	  window.acf.addAction('render_block_preview/type={{prefix}}-{{slug}}', initializeBlock);
+	}
+  
+  })(jQuery);

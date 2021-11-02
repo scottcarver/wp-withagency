@@ -51,6 +51,9 @@ if (defined('WP_CLI') && WP_CLI)
          * [--activate]
          * : This string of text will be used to create the directory in which your component is stored. It can only include lowercase text and dashes A good pattern for client Acme|Betamax is "acme|betamax"
          * 
+         * [--blockify]
+         * : Add's an ACF definition and places the code inside /block/ rather than /component/
+         * 
          * ## EXAMPLES
          *     Prompt for inputs
          *     $ wp withagency component --prompt
@@ -61,16 +64,15 @@ if (defined('WP_CLI') && WP_CLI)
          *     Create a component and Activate it
          *     $ wp withagency component --prefix=ax --domain=client-site --name=Acme --slug=acme --activate
         */
-        public function component($args, $assoc_args)
-        {   
-       
-            
+        public function component($args, $assoc_args){   
             
             // Slug
             $slug = WP_CLI\Utils\get_flag_value($assoc_args, 'slug');
             $name = WP_CLI\Utils\get_flag_value($assoc_args, 'name');
             $startwith = WP_CLI\Utils\get_flag_value($assoc_args, 'startwith');
             $activate = WP_CLI\Utils\get_flag_value($assoc_args, 'activate', false);
+            $blockify = WP_CLI\Utils\get_flag_value($assoc_args, 'blockify', false);
+            $pathslug = $blockify ? 'block' : 'component';
             $starters = array(
                 'generic' => 'Generic',
                 // 'layout' => 'Layout Area',
@@ -111,8 +113,8 @@ if (defined('WP_CLI') && WP_CLI)
             if($isAllowed && WithAgencyPluginWPCLI::is_constantable()){  
                 
                 
-                // Url Base
-                $dest = get_template_directory() . DEST_COMPONENT_FOLDER;
+                // Url Base $blockify ? DEST_BLOCK_FOLDER : 
+                $dest = $blockify ? get_template_directory() . DEST_BLOCK_FOLDER : get_template_directory() . DEST_COMPONENT_FOLDER ;
                 $component = THEME_PREFIX . '-' . $slug;
                 $componentDir = $dest.'/'.$component;
 
@@ -125,7 +127,7 @@ if (defined('WP_CLI') && WP_CLI)
                     'slug' => $slug,
                 );
 
-                // 3) Get component List
+                // 3) Dynamically Get the function componentTemplateFunction()
                 $componentPath = 'templates/component/xx-'.$selected.'/xx-'.$selected.'-template.php';
                 require_once($componentPath);
                 
@@ -137,20 +139,34 @@ if (defined('WP_CLI') && WP_CLI)
                     'gulpjsPath' => '/gulpfile.js/javascript_combined.json',
                     'cssPathPrefix' => '../../component/',
                     'scssWritePath' => '/library/style/custom/_custom_components.scss',
+                    'phpWritePath' => '/header.php'
+                 ];
+
+                 // Block Structure
+                 $blockUpdatePaths = (object)[
+                    'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
+                    'gulpjsAddition' => 'library/block/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
+                    'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
+                    'gulpjsPath' => '/gulpfile.js/javascript_copied.json',
+                    'cssPathPrefix' => '../../block/',
+                    'scssWritePath' => '/library/style/custom/_custom_blocks.scss',
+                    'phpWritePath' => '/library/function/custom/custom_blocks.php'
                  ];
                
-                $componentTemplateEntries = componentTemplateFunction($slug, $activate, $componentUpdatePaths);
+                // Alternate between component/block paths
+                $activeModePaths = $blockify ? $blockUpdatePaths : $componentUpdatePaths;
+                $componentTemplateEntries = componentTemplateFunction($slug, $name, $activate, $blockify, $activeModePaths);
 
                 // 4) Create directory - first check for the directory
 
                 // Components Dest Folder
                 if(!is_dir($dest)){mkdir($dest);}
                 // Component Directory
-                if (is_dir($componentDir)) { WP_CLI::error('folder was created previously, component creation process failed'); }
+                if (is_dir($componentDir)) { WP_CLI::error('folder was created previously, co'.$pathslug.'mponent creation process failed'); }
                 // Make Directory if it doesn't exist
                 mkdir($componentDir);
                 //Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new component "'.$slug.'" using the "'.$selected.'" template%n'));
+                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new "'.$pathslug.'" "'.$slug.'" using the "'.$selected.'" template%n'));
 
                 // 5) Generate Files
                 foreach($componentTemplateEntries->newfiles as $entry){
@@ -171,7 +187,6 @@ if (defined('WP_CLI') && WP_CLI)
 
                 // 6) Update Files
                 foreach($componentTemplateEntries->updatedfiles as $entry){
-                    
                     if(file_exists(get_template_directory().$entry['target'])){
                         WithAgencyPluginWPCLI::nice_tailfile($entry['target'], $entry['additions']);
                         WP_CLI::line(WP_CLI::colorize('%g- an existing file at ' . $entry['target'].' was updated %n'));
