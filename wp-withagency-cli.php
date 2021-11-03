@@ -73,13 +73,15 @@ if (defined('WP_CLI') && WP_CLI)
             $activate = WP_CLI\Utils\get_flag_value($assoc_args, 'activate', false);
             $blockify = WP_CLI\Utils\get_flag_value($assoc_args, 'blockify', false);
             $pathslug = $blockify ? 'block' : 'component';
-            $starters = array(
-                'generic' => 'Generic',
+            $starters = $blockify ? array(
+                'generic' => 'Helenic',
                 // 'layout' => 'Layout Area',
                 // 'primarynav' => 'Primary Nav',
                 // 'footernav' => 'Footer Nav',
                 // 'csscarousel' => 'CSS Carousel',
                 // 'jscarousel' => 'JS Carousel',
+            ) : array(
+                'generic' => 'Generic',
             );
             $allUserArgs = isset($slug) && isset($name);
             $isAllowed = false;
@@ -112,12 +114,10 @@ if (defined('WP_CLI') && WP_CLI)
             // If Is Allowed
             if($isAllowed && WithAgencyPluginWPCLI::is_constantable()){  
                 
-                
                 // Url Base $blockify ? DEST_BLOCK_FOLDER : 
                 $dest = $blockify ? get_template_directory() . DEST_BLOCK_FOLDER : get_template_directory() . DEST_COMPONENT_FOLDER ;
                 $component = THEME_PREFIX . '-' . $slug;
                 $componentDir = $dest.'/'.$component;
-
 
                 // 2) Generate Configured Files
                 $renderVars = array(
@@ -128,13 +128,13 @@ if (defined('WP_CLI') && WP_CLI)
                 );
 
                 // 3) Dynamically Get the function componentTemplateFunction()
-                $componentPath = 'templates/component/xx-'.$selected.'/xx-'.$selected.'-template.php';
+                $componentPath = 'templates/'.$pathslug.'/xx-'.$selected.'/xx-'.$selected.'-template.php';
                 require_once($componentPath);
                 
                 // Files are structured like: xx-slug/xx-slug
                 $componentUpdatePaths = (object)[
                     'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
-                    'gulpjsAddition' => 'library/component/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
+                    'jsAddition' => 'library/component/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
                     'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
                     'gulpjsPath' => '/gulpfile.js/javascript_combined.json',
                     'cssPathPrefix' => '../../component/',
@@ -145,7 +145,7 @@ if (defined('WP_CLI') && WP_CLI)
                  // Block Structure
                  $blockUpdatePaths = (object)[
                     'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
-                    'gulpjsAddition' => 'library/block/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
+                    'jsAddition' => 'library/block/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
                     'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
                     'gulpjsPath' => '/gulpfile.js/javascript_copied.json',
                     'cssPathPrefix' => '../../block/',
@@ -153,9 +153,10 @@ if (defined('WP_CLI') && WP_CLI)
                     'phpWritePath' => '/library/function/custom/custom_blocks.php'
                  ];
                
+                $componentString = THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug;
                 // Alternate between component/block paths
-                $activeModePaths = $blockify ? $blockUpdatePaths : $componentUpdatePaths;
-                $componentTemplateEntries = componentTemplateFunction($slug, $name, $activate, $blockify, $activeModePaths);
+                // $activeModePaths = $blockify ? $blockUpdatePaths : $componentUpdatePaths;
+                $componentTemplateEntries = componentTemplateFunction($componentString, $activate);
 
                 // 4) Create directory - first check for the directory
 
@@ -183,8 +184,6 @@ if (defined('WP_CLI') && WP_CLI)
                    //  WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
                 }
                 
-
-
                 // 6) Update Files
                 foreach($componentTemplateEntries->updatedfiles as $entry){
                     if(file_exists(get_template_directory().$entry['target'])){
