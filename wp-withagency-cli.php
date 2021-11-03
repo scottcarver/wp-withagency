@@ -20,17 +20,48 @@ if (defined('WP_CLI') && WP_CLI)
   
     /**
      * A set of opinionated generators for building themes With Agency
+     * 
     */
     class WithAgencyPluginWPCLI
     {
         
 
-         // A block and associated files, this makes use of the existing component fuction
-        public function block($args)
+        /**
+        * Generates starter code for a Block.
+        *
+        * A collection of files will be copied and configured when you create your block
+        * 
+        * ## OPTIONS
+        *
+        * [--slug=<slug>]
+        * : This string of text will be used to create the directory in which your block is stored. It can only include lowercase text and dashes A good pattern for client Acme|Betamax is "acme|betamax"
+        * 
+        * [--name=<name>]
+        * : This string of text is will display when managing your block. A good pattern for client Acme|Betamax is "Acme 20xx|Betmax Agency"
+        * 
+        * [--startwith=<slug>]
+        * : select an existing starter template
+        * 
+        * [--activate]
+        * : This string of text will be used to create the directory in which your block is stored. It can only include lowercase text and dashes A good pattern for client Acme|Betamax is "acme|betamax"
+        * 
+        */
+        public function block($args, $assoc_args)
         {
-            $userSlug = cli\prompt('Block Name', 'event');
+            // Hardcode the --blockify flag
+            $assoc_args['blockify'] = 1;
+            // Call Component command
+            WithAgencyPluginWPCLI::component($args, $assoc_args);
         }
 
+
+
+        public function badorp($args, $assoc_args)
+        {
+            // Call Component command
+            WithAgencyPluginWPCLI::nice_message('Badorp', 'green');
+        }
+        
 
         /**
          * Generates starter code for a Component.
@@ -74,7 +105,7 @@ if (defined('WP_CLI') && WP_CLI)
             $blockify = WP_CLI\Utils\get_flag_value($assoc_args, 'blockify', false);
             $pathslug = $blockify ? 'block' : 'component';
             $starters = $blockify ? array(
-                'generic' => 'Helenic',
+                'generic' => 'Generic',
                 // 'layout' => 'Layout Area',
                 // 'primarynav' => 'Primary Nav',
                 // 'footernav' => 'Footer Nav',
@@ -101,11 +132,11 @@ if (defined('WP_CLI') && WP_CLI)
             } else {
                 if(!$selected){
                     
-                    WP_CLI::line("\r\n" . "Select a Starter Component:" );
+                    WP_CLI::line("\r\n" . "Select a Starter ".ucfirst($pathslug).":" );
                     $size = sizeof($starters);
                     $phrase = 'Enter a number 1-'.$size.', to proceed';
                     $selected = cli\menu($starters, null, $phrase);
-                //   WP_CLI::line("starter was" . $selected);
+                    // WP_CLI::line("starter was" . $selected);
                     // Determine whether Inputs are Good
                 }
                 $isAllowed = WithAgencyPluginWPCLI::is_slugworthy($slug) && WithAgencyPluginWPCLI::is_nameworthy($name) && $selected;
@@ -130,36 +161,12 @@ if (defined('WP_CLI') && WP_CLI)
                 // 3) Dynamically Get the function componentTemplateFunction()
                 $componentPath = 'templates/'.$pathslug.'/xx-'.$selected.'/xx-'.$selected.'-template.php';
                 require_once($componentPath);
-                
-                // Files are structured like: xx-slug/xx-slug
-                $componentUpdatePaths = (object)[
-                    'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
-                    'jsAddition' => 'library/component/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
-                    'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
-                    'gulpjsPath' => '/gulpfile.js/javascript_combined.json',
-                    'cssPathPrefix' => '../../component/',
-                    'scssWritePath' => '/library/style/custom/_custom_components.scss',
-                    'phpWritePath' => '/header.php'
-                 ];
-
-                 // Block Structure
-                 $blockUpdatePaths = (object)[
-                    'componentString' => THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug,
-                    'jsAddition' => 'library/block/' . THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug.'.js',
-                    'scssString' => THEME_PREFIX.'-'.$slug .'/_'. THEME_PREFIX.'-'.$slug,
-                    'gulpjsPath' => '/gulpfile.js/javascript_copied.json',
-                    'cssPathPrefix' => '../../block/',
-                    'scssWritePath' => '/library/style/custom/_custom_blocks.scss',
-                    'phpWritePath' => '/library/function/custom/custom_blocks.php'
-                 ];
-               
+                // This pattern is used A LOT, so just use the variable
                 $componentString = THEME_PREFIX.'-'.$slug .'/'. THEME_PREFIX.'-'.$slug;
-                // Alternate between component/block paths
-                // $activeModePaths = $blockify ? $blockUpdatePaths : $componentUpdatePaths;
+                // Used For Both Components and Blocks
                 $componentTemplateEntries = componentTemplateFunction($componentString, $activate);
 
                 // 4) Create directory - first check for the directory
-
                 // Components Dest Folder
                 if(!is_dir($dest)){mkdir($dest);}
                 // Component Directory
@@ -177,7 +184,6 @@ if (defined('WP_CLI') && WP_CLI)
                     // Capture HTML
                     $html_rendered = self::nice_renderhtml($renderVars);
                     // Save to File
-                    // file_put_contents($renderVars['output'], $html_rendered);
                     self::nice_rendertofile($html_rendered, $renderVars['output']);
                     // Report Success
                     WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' .$renderVars['output'].' %n'));
@@ -193,18 +199,6 @@ if (defined('WP_CLI') && WP_CLI)
                         WP_CLI::line('❌ The file '.$entry['target'].' does not exist and was not updated');
                     }
                 }
-
-                // 6) Activate immediately by Updating Files
-                /*
-                if($activate){
-                    // WP_CLI::success($slug . ' Component Activated!');
-                    // 1) Tail PHP
-                    // 2) Tail JS
-                    // 3) Tail CSS
-                } else {
-                    WP_CLI::warning('Component is not activated, however');
-                }
-                */
                
             } else {
                 WP_CLI::line('❌ The needed CONSTANTS, typically defined in custom_constants.php do not exist and the operation halted. The "retrofit" command may help you get past this.');
@@ -1180,6 +1174,28 @@ if (defined('WP_CLI') && WP_CLI)
             shell_exec("cp -r $src $dest");
             WP_CLI::success('A new directory was created here: ' . $dest);
             
+        }
+
+        /**
+        *  Create Formatted Message in the CLI
+        */
+        private static function nice_message($message, $color="none"){
+
+            $mymessage =  '🎉 Successfully Created your new template';
+
+            $colors = array(
+                'green' => '%g',
+                'greenbg' => '%k%2',
+                'none' =>''
+            );
+
+            $safecolor = array_key_exists($color, $colors) ? $colors[$color] : '';
+
+            $tagopen = $safecolor;
+            $tagclose = '%n';
+            $formattedMessage = $tagopen.$mymessage.$tagclose;
+            // Put Contents
+            WP_CLI::line(WP_CLI::colorize($formattedMessage));
         }
 
         /**
