@@ -55,14 +55,6 @@ if (defined('WP_CLI') && WP_CLI)
         }
 
 
-
-        public function badorp($args, $assoc_args)
-        {
-            // Call Component command
-            WithAgencyPluginWPCLI::nice_message('Badorp', 'green');
-        }
-        
-
         /**
          * Generates starter code for a Component.
          *
@@ -174,7 +166,9 @@ if (defined('WP_CLI') && WP_CLI)
                 // Make Directory if it doesn't exist
                 mkdir($componentDir);
                 //Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new "'.$pathslug.'" "'.$slug.'" using the "'.$selected.'" template%n'));
+                $messageSuccess = '🎉 Successfully Created your new "' . $pathslug . '" "' . $slug . '" using the "' . $selected . '" template';
+                self::nice_message($messageSuccess, 'greenbg');
+                //WP_CLI::line(WP_CLI::colorize('%k%2 %n'));
 
                 // 5) Generate Files
                 foreach($componentTemplateEntries->newfiles as $entry){
@@ -186,15 +180,16 @@ if (defined('WP_CLI') && WP_CLI)
                     // Save to File
                     self::nice_rendertofile($html_rendered, $renderVars['output']);
                     // Report Success
-                    WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' .$renderVars['output'].' %n'));
-                   //  WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
+                    $messageSuccess = '- a new file was created at ' .$renderVars['output'].' ';
+                    self::nice_message($messageSuccess, 'green');
                 }
                 
                 // 6) Update Files
                 foreach($componentTemplateEntries->updatedfiles as $entry){
                     if(file_exists(get_template_directory().$entry['target'])){
+                        $messageSuccess = '- an existing file at ' . $entry['target'].' was updated ';
                         WithAgencyPluginWPCLI::nice_tailfile($entry['target'], $entry['additions']);
-                        WP_CLI::line(WP_CLI::colorize('%g- an existing file at ' . $entry['target'].' was updated %n'));
+                        self::nice_message($messageSuccess, 'green');
                     } else {
                         WP_CLI::line('❌ The file '.$entry['target'].' does not exist and was not updated');
                     }
@@ -251,14 +246,23 @@ if (defined('WP_CLI') && WP_CLI)
                 // Add changes to Existing file
                 $fileadditions = "/* ".$slug." */\r\n"."require_once(get_template_directory().'/library/endpoint/endpoint_".$slug.".php');";
                 WithAgencyPluginWPCLI::nice_tailfile(DEST_ENDPOINT_FILE, $fileadditions);
-                // Report Success
+                
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  '🎉 Successfully Created your new endpoint "'.$slug.'"',
+                    'filenew' => '- a new file was created at ' . DEST_ENDPOINT_FOLDER . 'endpoint_'.$slug.'.php ',
+                    'fileupdated' => '- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this ',
+                    'documentation' => '- your endpoint is *lightly configured* and may require modifications should you choose to capture one, or multiple inputs. ',
+                    'link' => self::nice_documentationurl().'endpoint'
+                ];
+
+                // Output Messages
                 WP_CLI::line();
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new endpoint "'.$slug.'"%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' . DEST_ENDPOINT_FOLDER . 'endpoint_'.$slug.'.php %n'));
-                WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_ENDPOINT_FOLDER . 'customs_endpoints.php was updated to reference this %n'));
-                // Show link to Docs
-                WP_CLI::line(WP_CLI::colorize('%g- your endpoint is *lightly configured* and may require modifications should you choose to capture one, or multiple inputs. %n'));
-                WP_CLI::line(self::nice_documentationurl().'endpoint');
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->fileupdated, 'green');
+                self::nice_message($messages->documentation, 'green');
+                WP_CLI::line($messages->link);
                 WP_CLI::line();
             }
         }
@@ -319,11 +323,23 @@ if (defined('WP_CLI') && WP_CLI)
                 // Save File
                 file_put_contents($renderVars['output'], $html_rendered);
                 WithAgencyPluginWPCLI::nice_tailfile(DEST_POSTTYPE_FILE, $fileadditions);
-                // Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new posttype "'.$userSlug.'"%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' . DEST_POSTTYPE_FOLDER . 'posttype_'.$userSlug.'.php%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_POSTTYPE_FILE . ' was updated to reference posttype_'.$userSlug.'.php%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- the file is lightly configured. Please update the icon and labels if needed %n'));
+
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  '🎉 Successfully Created your new posttype "'.$userSlug.'"',
+                    'filenew' => '- a new file was created at ' . DEST_POSTTYPE_FOLDER . 'posttype_'.$userSlug.'.php ',
+                    'fileupdated' => '- the existing file ' . DEST_POSTTYPE_FILE . ' was updated to reference posttype_'.$userSlug.'.php',
+                    'documentation' => '- the file is lightly configured. Please update the icon and labels if needed ',
+                    'link' => self::nice_documentationurl().'endpoint'
+                ];
+
+                // Output Messages
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->fileupdated, 'green');
+                self::nice_message($messages->documentation, 'green');
+                WP_CLI::line($messages->link);
+
             }
         }
 
@@ -427,13 +443,26 @@ if (defined('WP_CLI') && WP_CLI)
                 // Add changes to Existing file
                 $fileadditions = "/* ".$routename." */\r\n" . "require_once(get_template_directory().'/library/route/route_".$routename.".php');";
                 WithAgencyPluginWPCLI::nice_tailfile(DEST_ROUTE_FILE, $fileadditions);
-                // Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new route "'.$routename.'"%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' . DEST_ROUTE_FOLDER . 'route_'.$routename.'.php %n'));
-                WP_CLI::line(WP_CLI::colorize('%g- it loads a template, which was also created: ' . DEST_ROUTE_FOLDER . 'route_'.$routename.'_template.php %n'));
-                // Show link to Docs
-                WP_CLI::line(WP_CLI::colorize('%g- your route is lightly configured and may require modifications %n'));
-                WP_CLI::line(self::nice_documentationurl().'route');
+
+
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  '🎉 Successfully Created your new route "'.$routename.'"',
+                    'filenew' => '- a new file was created at ' . DEST_ROUTE_FOLDER . 'route_'.$routename.'.php ',
+                    'secondaryfile' => '- it loads a template, which was also created: ' . DEST_ROUTE_FOLDER . 'route_'.$routename.'_template.php ',
+                    'fileupdated' => '- the existing file ' . DEST_POSTTYPE_FILE . ' was updated to reference posttype_'.$userSlug.'.php',
+                    'note' => '- your route is lightly configured and may require modifications ',
+                    'link' => self::nice_documentationurl().'route'
+                ];
+
+                // Output Messages
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->secondaryfile, 'green');
+                self::nice_message($messages->fileupdated, 'green');
+                self::nice_message($messages->note, 'green');
+                self::nice_message($messages->link);
+
             }
         }
 
@@ -519,13 +548,23 @@ if (defined('WP_CLI') && WP_CLI)
                 // Tail the functions File
                 WithAgencyPluginWPCLI::nice_tailfile('/functions.php', $fileadditions);
 
-                // Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created New Constants! %n'));
-                WP_CLI::line(WP_CLI::colorize('%g- a new file was created /custom_constants.php %n'));
-                WP_CLI::line(WP_CLI::colorize('%g- functions.php was updated to reference that file %n'));
-                WP_CLI::line(WP_CLI::colorize('%g- Configuring custom_constants.php for your unique theme architecture may be useful %n'));
-                // Show link to Docs
-                WP_CLI::line(self::nice_documentationurl().'retrofit');
+
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  '🎉 Successfully Created New Constants!',
+                    'filenew' => '- a new file was created /custom_constants.php',
+                    'fileupdated' => '- functions.php was updated to reference that file',
+                    'note' => '- Configuring custom_constants.php for your unique theme architecture may be useful ',
+                    'link' => self::nice_documentationurl().'retrofit'
+                ];
+
+                // Output Messages
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->fileupdated, 'green');
+                self::nice_message($messages->note, 'green');
+                self::nice_message($messages->link);
+
             }
         }
 
@@ -590,13 +629,22 @@ if (defined('WP_CLI') && WP_CLI)
                 // Save File
                 file_put_contents($renderVars['output'], $html_rendered);
                 WithAgencyPluginWPCLI::nice_tailfile(DEST_TAXONOMY_FILE, $fileadditions);
-                // Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully Created your new taxonomy "'.$userSlug.'"%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- a new file was created at ' . DEST_TAXONOMY_FOLDER . 'taxonomy_'.$userSlug.'.php.%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- the existing file ' . DEST_TAXONOMY_FILE . ' was updated to reference taxonomy_'.$userSlug.'.php%n'));
-                WP_CLI::line(WP_CLI::colorize('%g- by default Post|Page are targeted. Change this file to match your Posttypes. %n'));
-                WP_CLI::line(self::nice_documentationurl().'taxonomy');
-                
+
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  ' 🎉 Successfully Created your new taxonomy "'.$userSlug.'"',
+                    'filenew' => '- a new file was created at ' . DEST_TAXONOMY_FOLDER . 'taxonomy_'.$userSlug.'.php',
+                    'fileupdated' => '- the existing file ' . DEST_TAXONOMY_FILE . ' was updated to reference taxonomy_'.$userSlug.'.php',
+                    'note' => '- by default Post|Page are targeted. Change this file to match your Posttypes. ',
+                    'link' => self::nice_documentationurl().'taxonomy'
+                ];
+
+                // Output Messages
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->fileupdated, 'green');
+                self::nice_message($messages->note, 'green');
+                self::nice_message($messages->link);
             }
         }
 
@@ -636,19 +684,29 @@ if (defined('WP_CLI') && WP_CLI)
                 // Variables passed to the Render Function
                 $renderVars = array(
                     'template'=>'template/config/posttype-template.php.mustache',
-                    'output'=> get_template_directory() . DEST_TEMPLATE_FOLDER . 'page-'.$slug.'.php',
+                    'output'=> get_template_directory() . DEST_TEMPLATE_FOLDER . 'template-'.$slug.'.php',
                     'prefix'=>THEME_PREFIX,
                     'title'=>$title
-                    );
+                );
                 // Render Markup for New files
                 $templatefile_rendered = self::nice_renderhtml($renderVars);
                 // 1) Save Route File 2) Save Template File
                 file_put_contents($renderVars['output'], $templatefile_rendered);
                 // Add changes to Existing file
 
-                // Report Success
-                WP_CLI::line(WP_CLI::colorize('%k%2 🎉 Successfully created your new template "'.$slug.'"%n'));
-                WP_CLI::line('- a new file was created in the Active Theme at ' . DEST_TEMPLATE_FOLDER . 'page-'.$slug.'.php and is now available to use');
+                // Store Messages
+                $messages = (object)[
+                    'success' =>  ' 🎉 Successfully created your new template "'.$slug.'"',
+                    'filenew' => '- a new file was created in the Active Theme at ' . DEST_TEMPLATE_FOLDER . 'template-'.$slug.'.php and is now available to use',
+                    'note' => '- Configuring this file may be useful!',
+                    'link' => self::nice_documentationurl().'retrofit'
+                ];
+
+                // Output Messages
+                self::nice_message($messages->success, 'greenbg');
+                self::nice_message($messages->filenew, 'green');
+                self::nice_message($messages->note, 'green');
+                self::nice_message($messages->link);
             }
 
         }
@@ -726,9 +784,7 @@ if (defined('WP_CLI') && WP_CLI)
                     $html = self::nice_renderhtml($renderVars);
                      // Save to File
                     // file_put_contents($renderVars['output'], $html);
-
                     self::nice_rendertofile($html, $renderVars['output']);
-                 
                 }
 
                 // 5) Activate immediately after creating it
@@ -1162,7 +1218,6 @@ if (defined('WP_CLI') && WP_CLI)
          */
         private static function nice_duplicatefolder($src, $dest, $force=false)
         {
-
             // If there is a directory, bow out
             if(is_dir($dest)){
                 WP_CLI::error('The slug/directory you specified (' . $dest . ') already exists.');
@@ -1179,21 +1234,20 @@ if (defined('WP_CLI') && WP_CLI)
         /**
         *  Create Formatted Message in the CLI
         */
-        private static function nice_message($message, $color="none"){
+        private static function nice_message($message, $color='none'){
 
-            $mymessage =  '🎉 Successfully Created your new template';
-
+            /* Color docs here https://make.wordpress.org/cli/handbook/references/internal-api/wp-cli-colorize/ */
             $colors = array(
                 'green' => '%g',
                 'greenbg' => '%k%2',
+                'magenta' => '%m',
+                'magentabg' => '%5',
                 'none' =>''
             );
 
             $safecolor = array_key_exists($color, $colors) ? $colors[$color] : '';
+            $formattedMessage = $safecolor . $message . '%n';
 
-            $tagopen = $safecolor;
-            $tagclose = '%n';
-            $formattedMessage = $tagopen.$mymessage.$tagclose;
             // Put Contents
             WP_CLI::line(WP_CLI::colorize($formattedMessage));
         }
@@ -1230,46 +1284,43 @@ if (defined('WP_CLI') && WP_CLI)
          */
 
         private function nice_tailfile($filepath, $fileadditions){
-
             
-            
-                if(file_exists(get_template_directory().$filepath)){
-                    // Open the file to get existing content
-                    $contents = file_get_contents(get_template_directory().$filepath);
-                    // Include Timestamp
-                    $timestamp = false;
-                    // Append a new Date to the file
-                    if($timestamp){
-                        $now = new DateTime('NOW');
-                        $isotime =  $now->format('c');
-                        $contents .= "\r\n\r\n/* New Feature Generated ".$isotime."*/\r\n";
-                    }
-                    // New
-                    $contents .= "\r\n\r\n";
-                    $contents .=  $fileadditions;
-                   
-                    // Write the contents back to the file
-                    // Add to JSON
-                    if(WithAgencyPluginWPCLI::custom_str_contains($filepath,'.json')){
-                        // Open JSON
-                        $contents = file_get_contents(get_template_directory().$filepath);
-                        $data = json_decode($contents);
-                        // Add new entry
-                        array_push($data, $fileadditions);
-                        $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
-                        // Save JSON
-                        file_put_contents(get_template_directory().$filepath, stripslashes($newJsonString));
-                        
-                    // Add by Addition to the end of the file
-                    } else {
-                        file_put_contents(get_template_directory().$filepath, $contents);
-                    }
-
-                // File Doesn't Exist                      
-                } else {
-                    WP_CLI::error('That file (' . get_template_directory().$filepath . ') does not exists yet.');
+            if(file_exists(get_template_directory().$filepath)){
+                // Open the file to get existing content
+                $contents = file_get_contents(get_template_directory().$filepath);
+                // Include Timestamp
+                $timestamp = false;
+                // Append a new Date to the file
+                if($timestamp){
+                    $now = new DateTime('NOW');
+                    $isotime =  $now->format('c');
+                    $contents .= "\r\n\r\n/* New Feature Generated ".$isotime."*/\r\n";
                 }
+                // New
+                $contents .= "\r\n\r\n";
+                $contents .=  $fileadditions;
                 
+                // Write the contents back to the file
+                // Add to JSON
+                if(WithAgencyPluginWPCLI::custom_str_contains($filepath,'.json')){
+                    // Open JSON
+                    $contents = file_get_contents(get_template_directory().$filepath);
+                    $data = json_decode($contents);
+                    // Add new entry
+                    array_push($data, $fileadditions);
+                    $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
+                    // Save JSON
+                    file_put_contents(get_template_directory().$filepath, stripslashes($newJsonString));
+                    
+                // Add by Addition to the end of the file
+                } else {
+                    file_put_contents(get_template_directory().$filepath, $contents);
+                }
+
+            // File Doesn't Exist                      
+            } else {
+                WP_CLI::error('That file (' . get_template_directory().$filepath . ') does not exists yet.');
+            }
            
         }
      
