@@ -19,9 +19,15 @@ function register_custom_{{slug}}() {
          'category' => 'layout',
          'icon' => 'align-center',
          'keywords' => array('games', 'grid', 'slider'),
-         'supports'	=> array(
-            'align'		=> false,
-         )
+         'mode'			=> 'preview',
+         'supports'		=> [
+            'align'			=> array( 'wide', 'full' ),
+            'anchor'		=> true,
+            'customClassName'	=> true,
+            'jsx' 			=> true,
+         ],
+         // enable full_height
+         'full_height' => true,
       ));
    }
 }

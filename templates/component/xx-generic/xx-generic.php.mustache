@@ -1,7 +1,29 @@
 <div class="{{prefix}}-{{slug}}">
 
 	<div class="{{prefix}}-{{slug}}__content">
-		<nav>{{name}} Component</nav>
+		<?php
+		$classes = '';
+		if( !empty($block['className']) ) {
+			$classes .= sprintf( ' %s', $block['className'] );
+		}
+		if( !empty($block['align']) ) {
+			$classes .= sprintf( ' align%s', $block['align'] );
+		}
+		
+		$template = array(
+			array('core/heading', array(
+				'level' => 2,
+				'content' => 'Title Goes Here',
+			)),
+			array( 'core/paragraph', array(
+				'content' => '<strong>Colorway:</strong> <br /><strong>Style Code:</strong>  <br /><strong>Release Date:</strong> <br /><strong>MSRP:</strong> ',
+			) )
+		);
+		echo('<h1>{{name}} Component</h1>);
+		echo '<div class="' . $classes . '"' . $anchor . '>';
+			echo '<InnerBlocks template="' . esc_attr( wp_json_encode( $template ) ) . '" />';
+		echo '</div>';
+		?>
 	</div>
 
 </div>

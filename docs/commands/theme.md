@@ -61,3 +61,4 @@ If you know the values you want to use beforehand, you can pass the parameters i
 ### 📈 Improvements
 
 1. The gulpfile needs minor configuration as the components are currently copied, not combined. This is ok for block CSS, but the entire component css/js is not very big.
+2. theme.json is generated but may need configruation, and additional docs. The general goal is to disable all core features.

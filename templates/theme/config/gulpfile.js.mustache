@@ -30,7 +30,7 @@ var paths = {
   // Process SCSS in /style/ dir, but not the primarycss
   styles: {
     src: ['library/style/**/*.scss', '!library/style/style.scss'],
-    dest: 'dist/global/'
+    dest: 'dist/custom/'
   },
   // Copy Each Block SCSS individually, ignore if starts with _
   blocks: {
@@ -56,9 +56,11 @@ var paths = {
   // Convert javascript_combined.json into dist/main.min.js
   scripts: {
     src: ['js/**/*.js', '!js/unused/**'],
-    dest: 'dist/global/',
+    destVendor: 'dist/vendor/',
+    destCustom: 'dist/custom/',
     combined: require('./javascript_combined.json'),
-    copied: require('./javascript_copied.json')
+    copied: 'library/script/vendor/**/*',
+    oldcopied: require('./javascript_copied.json')
   },
   // Copy Images from library to dist
   images: {
@@ -138,7 +140,7 @@ function copyBlocksJS() {
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.componentjs.dest))
+    .pipe(gulp.dest(paths.blocksjs.dest))
     .pipe(browserSync.stream());
 }
 
@@ -192,14 +194,14 @@ function combineScripts() {
     .pipe(uglify())
     .pipe(concat('main.min.js'))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.scripts.dest))
+    .pipe(gulp.dest(paths.scripts.destCustom))
     .pipe(browserSync.stream());
 }
 
 function copyScripts(){
   return gulp
     .src(paths.scripts.copied)
-    .pipe(gulp.dest(paths.scripts.dest));
+    .pipe(gulp.dest(paths.scripts.destVendor));
 }
 
 /* Are both Uglify and Concat Needed? */
@@ -219,8 +221,8 @@ function watchEverything() {
   // Copy !
   gulp.watch(paths.blocks.src, copyBlocksCSS);
   // Copied 
-  gulp.watch(paths.blocks.src, copyBlocksJS);
-  gulp.watch(paths.blocks.src, copyComponentCSS);
+  gulp.watch(paths.blocksjs.src, copyBlocksJS);
+  gulp.watch(paths.components.src, copyComponentCSS);
   gulp.watch(paths.componentjs.src, copyComponentJS);
   gulp.watch(paths.images.src, copyImages);
   gulp.watch(paths.fonts.src, copyFonts);
@@ -232,11 +234,12 @@ function watchEverything() {
  *  
  * */
 function runBrowserSync(){
-   // Proxy running on localhost:8888/test-wp-cli/
+   // Proxy running on localhost:8888/my-wp-site/
    browserSync.init({
     port: 8888,
-    proxy: 'localhost/test-wp-cli/',
+    proxy: 'localhost/gutenberg-test/',
   });
+  watchEverything();
 }
 
 /*
@@ -263,7 +266,7 @@ var buildSeries = gulp.series(clean, gulp.parallel(allTasks));
 /**
  * Create a series which also cleans/builds/watches/synch
  */
-var watchSeries = gulp.series(clean, buildSeries, runBrowserSync, watchEverything);
+var watchSeries = gulp.series(clean, buildSeries, runBrowserSync); // , watchEverything
 
 /**
  * Exports clean/build/watch commands

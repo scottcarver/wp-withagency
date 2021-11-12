@@ -1,7 +1,7 @@
 <?php
 // Add Custom Block Categories
 function custom_blockcategories( $categories, $post ) {
-    if ( $post->post_type !== 'post' ) {
+    if (isset($post->post_type) && $post->post_type !== 'post' ) {
         return $categories;
     }
     return array_merge(
@@ -15,4 +15,4 @@ function custom_blockcategories( $categories, $post ) {
         )
     );
 }
-add_filter( 'block_categories', 'custom_blockcategories', 10, 2 );
+add_filter( 'block_categories_all', 'custom_blockcategories', 10, 2 );

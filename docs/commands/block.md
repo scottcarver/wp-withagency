@@ -64,4 +64,6 @@ If you know the values you want to use beforehand, you can pass the parameters i
 
 ***
 
-<!-- ### 📈 Improvements -->
+### 📈 Improvements
+
+1. Ideally new blocks would be added to the "allowed list" when they're generated. Currently a function called `custom_allowedblocktypes` explicitly allows certain blocks. It is disabled by default until it can be integrated. Likely this will become a .json file, which makes it easier to read/write.

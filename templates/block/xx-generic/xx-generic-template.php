@@ -21,10 +21,10 @@ function componentTemplateFunction($componentString, $activate){
     );
     // These Files Will be Updated
     $updatedfiles = array(
-        array(
-            'target' => '/gulpfile.js/javascript_copied.json', 
-            'additions' => 'library/block/'. $componentString .'.js',
-        ),
+        // array(
+        //     'target' => '/gulpfile.js/javascript_copied.json', 
+        //     'additions' => 'library/block/'. $componentString .'.js',
+        // ),
         array(
             'target' => '/library/style/custom/_custom_blocks.scss',
             'additions' => "@import \"../../block/".$componentString.".scss\";", // Doublequotes allow special vals
