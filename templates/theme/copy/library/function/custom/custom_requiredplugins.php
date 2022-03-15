@@ -1,6 +1,21 @@
 <?php
+/* Check for TGMPA plugin */
+if(class_exists('TGM_Plugin_Activation')){
+	add_action( 'tgmpa_register', 'wpinquirist_registerrequiredplugins' );
+} else {
+	add_action( 'admin_notices', 'wpinquirist_registerrequiredplugins_warning' );
+}
+
+/* Add a fallback admin warning */
+function wpinquirist_registerrequiredplugins_warning() {
+	$classname = 'https://github.com/scottcarver/wp-inquirist';
+	$class = 'notice notice-warning is-dismissible';
+	$message = __( 'The current theme would like to install some plugins. First add the WP Inquirist plugin ' . $classname . ' - Alternatively, you can also disable `custom_requiredplugins.php` in your theme (see functions.php) to hide this message.', 'sample-text-domain' );
+	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
+}
+
 /* This is a callback used in the TGMPA plugin. If you have the wp-inquirist plugin installed (which boots TGMPA) your WP install will prompt you for plugins when your theme is activated! */
-function wpinquirist_register_requiredplugins() {
+function wpinquirist_registerrequiredplugins() {
 	/*
 	 * Array of plugin arrays. Required keys are name and slug.
 	 * If the source is NOT from the .org repo, then source is also required.

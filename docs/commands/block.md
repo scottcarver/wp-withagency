@@ -67,3 +67,4 @@ If you know the values you want to use beforehand, you can pass the parameters i
 ### 📈 Improvements
 
 1. Ideally new blocks would be added to the "allowed list" when they're generated. Currently a function called `custom_allowedblocktypes` explicitly allows certain blocks. It is disabled by default until it can be integrated. Likely this will become a .json file, which makes it easier to read/write.
+2. PATTERNS. I've started using the pattern of /block/block-name-patterns.php to contain patterns within the component. These are required within a single file (function-custom_blockpatterns.php). In the future add an featuire to optionally include patterns for new blocks.

@@ -483,7 +483,7 @@ if (defined('WP_CLI') && WP_CLI)
          * : This string of text is will display when managing your theme. A good pattern for client Acme|Betamax is "Acme 20xx|Betamax Agency"
          * 
          * [--prefix=<prefix>]
-         * : This short lowercase text string should be between 2 and 5 characters for use in BEM Components.  Two Examples: 1) Acme->"acme"  1) Betamax->"px"
+         * : This short lowercase text string should be between 2 and 5 characters for use in BEM Components.  Two Examples: 1) Acme->"acme"  1) Betamax->"bx"
          *
          * [--domain=<domain>]
          * : This string of text will be used for translation/internationalization. It can only include lowercase text and dashes. By convention includes two words and one dash. A good pattern for client Acme|Betamax is "acme-site|betamax-agency"
@@ -726,7 +726,7 @@ if (defined('WP_CLI') && WP_CLI)
          * : This string of text is will display when managing your theme. A good pattern for client Acme|Betamax is "Acme 20xx|Betamax Agency"
          * 
          * [--prefix=<prefix>]
-         * : This short lowercase text string should be between 2 and 5 characters for use in BEM Components.  Two Examples: 1) Acme->"acme"  1) Betamax->"px"
+         * : This short lowercase text string should be between 2 and 5 characters for use in BEM Components.  Two Examples: 1) Acme->"acme"  1) Betamax->"bx"
          *
          * [--domain=<domain>]
          * : This string of text will be used for translation/internationalization. It can only include lowercase text and dashes. By convention includes two words and one dash. A good pattern for client Acme|Betamax is "acme-site|betamax-agency"
